@@ -122,6 +122,9 @@ class UserController extends Controller
     {
         if ($request->user()->tokenCan('admin:delete')) {
             $eliminado = user::where('id', $request->id)->first();
+            DB::table('user_permisos')->where('user_id', '=', $request->id)->delete();
+            DB::table('comentarios')->where('user_id', '=', $request->id)->delete();
+            DB::table('posts')->where('user_id', '=', $request->id)->delete();
             DB::table('users')->where('id', '=', $request->id)->delete();
             if ($eliminado) {
                 return response()->json(["Se eliminó el usuario:"=>$eliminado]);
@@ -132,6 +135,9 @@ class UserController extends Controller
         }
         else if ($request->user()->tokenCan('user:delete')) {
             $eliminado = user::where('id', $request->user()->id)->first();
+            DB::table('user_permisos')->where('user_id', '=', $request->user()->id)->delete();
+            DB::table('comentarios')->where('user_id', '=', $request->user()->id)->delete();
+            DB::table('posts')->where('user_id', '=', $request->user()->id)->delete();
             DB::table('users')->where('id', '=', $request->user()->id)->delete();
             if ($eliminado) {
                 return response()->json(["Eliminaste tu usuario:"=>$eliminado]);
