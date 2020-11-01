@@ -84,7 +84,7 @@ class PermisosController extends Controller
      */
     public function update(Request $request, int $id)
     {
-        if ($request->user()->tokenCan('admin:editarpermiso')) {
+        if ($request->user()->tokenCan('admin:update')) {
             $affected = DB::table('permisos')
                             ->where('id', $id)
                             ->update(['tipo' => $request->tipo]);
@@ -102,15 +102,17 @@ class PermisosController extends Controller
      * @param  \App\permisos  $permisos
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $request, int $id)
+    public function destroy(Request $request)
     {
-        if ($request->user()->tokenCan('admin:eliminarpermiso')) {
-            $eliminado = DB::table('permisos')->where('id', '=', $id)->delete();
-            if ($eliminado >= 1) {
-                return response()->json("Se eliminó ". $eliminado ." permiso");
+        if ($request->user()->tokenCan('admin:delete')) {
+            $eliminado = DB::table('permisos')->where('id', $request->id)->first();
+            if ($eliminado) {
+                DB::table('user_permisos')->where('permiso_id', $request->id)->where('permiso_id', '=', $request->id)->delete();
+                DB::table('permisos')->where('id', '=', $request->id)->delete();
+                return response()->json(["Eliminaste el permiso:"=>$eliminado]);
             }
             else {
-                return response()->json("No eliminó ningún permiso");
+                return response()->json("No se eliminó ningún permiso");
             }
         }
         return abort(401, "No tienes autorización para eliminar permisos");

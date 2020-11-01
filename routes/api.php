@@ -53,13 +53,16 @@ Route::middleware('auth:sanctum')->get('/cuenta', 'UserController@cuenta');
 // user:update user:index user:delete user:create admin:update admin:index admin:delete admin:create admin:asignar
 Route::middleware('auth:sanctum')->get('permisos', 'PermisosController@index');
 Route::middleware('auth:sanctum')->post('permisos', 'PermisosController@store');
-Route::middleware('auth:sanctum')->put('permisos/{id}', 'PermisosController@update')->where("id", "[0-9]+");
-Route::middleware('auth:sanctum')->delete('permisos/{id}', 'PermisosController@destroy')->where("id", "[0-9]+");
+Route::middleware('auth:sanctum')->put('permisos', 'PermisosController@update');
+Route::middleware('auth:sanctum')->delete('permisos', 'PermisosController@destroy');
 
 //USER_PERMISO
 Route::middleware('auth:sanctum')->get('asignar', 'UserPermisoController@index');
 Route::middleware('auth:sanctum')->post('asignar', 'UserPermisoController@store');
 Route::middleware('auth:sanctum')->delete('asignar', 'UserPermisoController@destroy');
+
+//ASIGNAR admin O user
+Route::middleware('auth:sanctum')->post('tipospermisos', 'UserPermisoController@tipospermisos');
 
 //USERS
 Route::middleware('auth:sanctum')->get('users', 'UserController@index');

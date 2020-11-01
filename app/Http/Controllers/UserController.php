@@ -179,7 +179,7 @@ class UserController extends Controller
         return response()->json(["Afectados" => $request->user()->tokens()->delete()], 200);   
     }
 
-    public function registro(Request $request )
+    public function registro(Request $request)
     {
         $request->validate([
             'name' => 'required',
@@ -203,6 +203,5 @@ class UserController extends Controller
     {
         return User::all();
     }
-
 
 }

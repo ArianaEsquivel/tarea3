@@ -116,15 +116,36 @@ class UserPermisoController extends Controller
      */
     public function destroy(Request $request)
     {
-        if ($request->user()->tokenCan('admin:eliminarpermiso')) {
+        if ($request->user()->tokenCan('admin:delete')) {
             $eliminado = user_permiso::where('permiso_id', $request->permiso_id)->where('user_id', '=', $request->user_id)->get();
             $hecho = user_permiso::where('permiso_id', $request->permiso_id)->where('user_id', '=', $request->user_id)->delete();
             if ($hecho) {
-                return response()->json(["Se eliminó el permiso:"=>$eliminado]);
+                return response()->json(["Se desvinculó el permiso:"=>$eliminado]);
             }
             else {
-                return response()->json("No se eliminó ningún permiso, verifica que el el permiso esté asignado al usuario");
+                return response()->json("No se desvinculó ningún permiso, verifica que el el permiso esté asignado al usuario");
             }
         }
+    }
+    public function tipospermisos(Request $request)
+    {
+        $permisos = DB::table('permisos')->select('id')->where('tipo', 'like', $request->rol.':%')->get()->pluck('id')
+        ->toArray();;
+        //Log::info(["permisos"=>$permisos]);
+        //Log::info("IDD".$permisos[2]);
+        $tot = count($permisos);
+        for($i = 0; $i <= $tot; $i++)
+        {
+            //Log::info("IDD".$permisos[$i]);
+            $user_permiso                 = new User_Permiso();
+                $user_permiso->user_id        = $request->user_id;
+                $user_permiso->permiso_id     = $permisos[$i];
+                $hecho = $user_permiso->save();
+            //user_permiso::insert([
+              //  'user_id'=> $request->user_id,
+                //'permiso_id' => $permisos[$i]]);
+        }
+        //Log::info("countt ".count($permisos));
+
     }
 }
