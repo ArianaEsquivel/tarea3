@@ -129,23 +129,25 @@ class UserPermisoController extends Controller
     }
     public function tipospermisos(Request $request)
     {
-        $permisos = DB::table('permisos')->select('id')->where('tipo', 'like', $request->rol.':%')->get()->pluck('id')
-        ->toArray();;
-        //Log::info(["permisos"=>$permisos]);
-        //Log::info("IDD".$permisos[2]);
-        $tot = count($permisos);
-        for($i = 0; $i <= $tot; $i++)
-        {
-            //Log::info("IDD".$permisos[$i]);
-            $user_permiso                 = new User_Permiso();
-                $user_permiso->user_id        = $request->user_id;
-                $user_permiso->permiso_id     = $permisos[$i];
-                $hecho = $user_permiso->save();
-            //user_permiso::insert([
-              //  'user_id'=> $request->user_id,
-                //'permiso_id' => $permisos[$i]]);
+        if ($request->user()->tokenCan('admin:asignar')) {
+            $permisos = DB::table('permisos')->select('id')->where('tipo', 'like', $request->rol.':%')->get()->pluck('id')
+            ->toArray();
+            //Log::info(["permisos"=>$permisos]);
+            //Log::info("IDD".$permisos[2]);
+            $tot = count($permisos);
+            for($i = 0; $i <= $tot; $i++)
+            {
+                //Log::info("IDD".$permisos[$i]);
+                $user_permiso                 = new User_Permiso();
+                    $user_permiso->user_id        = $request->user_id;
+                    $user_permiso->permiso_id     = $permisos[$i];
+                    $hecho = $user_permiso->save();
+                //user_permiso::insert([
+                    //  'user_id'=> $request->user_id,
+                    //'permiso_id' => $permisos[$i]]);
+            }
+            //Log::info("countt ".count($permisos));
         }
-        //Log::info("countt ".count($permisos));
-
+        return abort(401, "No tienes autorización para asignar permisos");
     }
 }

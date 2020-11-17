@@ -168,7 +168,6 @@ class UserController extends Controller
                 'email' => ['Usuario o contraseña incorrecta...'],
             ]);
         }
-
         $token = $user->createToken($request->email, $user_permisos)->plainTextToken;
         return response()->json(["token" => $token], 201);
         
