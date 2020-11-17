@@ -18,7 +18,7 @@ class PermisosController extends Controller
         if ($request->user()->tokenCan('admin:index')) {
             return permisos::all();
         }
-        return abort(401, "No puedes ver los permisos");
+        return abort(401, "No tienes permiso para ver los permisos");
     }
 
     /**
