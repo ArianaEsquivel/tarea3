@@ -52,6 +52,12 @@ class UserPermisoController extends Controller
                 'user_id' => 'required',
                 'permiso_id' => 'required',
             ]);
+            $permiso = permisos::where('id', $request->permiso_id)->first();
+            $user = User::where('id', '=', $request->user_id)->first();
+            if (!$permiso || !$user)
+            {
+                return abort(400, "Verifica que tu user_id y permiso_id sean existentes");
+            }
             $buscar = user_permiso::where('permiso_id', $request->permiso_id)->where('user_id', '=', $request->user_id)->first();
             Log::info($buscar);
             if (!$buscar) {
@@ -71,7 +77,7 @@ class UserPermisoController extends Controller
                 }
                 return abort(400, "Error al asignar permiso");
             }
-            return abort(400, "Este permiso ya ha sido asignado");
+            return abort(201, "Este permiso ya ha sido asignado");
         }
         return abort(401, "No tienes autorización para asignar permisos");
     }
@@ -135,13 +141,12 @@ class UserPermisoController extends Controller
             $permisos = DB::table('permisos')->select('id')->where('tipo', 'like', $request->rol.':%')->get()->pluck('id')
             ->toArray();
             $user = User::where('id', '=', $request->user_id)->first();
-            Log::info(["permisos"=>$permisos]);
-            Log::info("user".$user);
+            //Log::info(["permisos"=>$permisos]);
+            //Log::info("user".$user);
             if (!$permisos || !$user)
             {
                 return abort(400, "Verifica que tu user_id y rol sean existentes");
             }
-            
             $tot = count($permisos);
             $hubo = 0;
             for($i = 0; $i < $tot; $i++)
@@ -155,12 +160,12 @@ class UserPermisoController extends Controller
                 ->where('users.id', '=', $request->user_id)
                 ->first();
                 
-                Log::info('userpermiso',[$userpermiso]);
+                //Log::info('userpermiso',[$userpermiso]);
                 if (!$userpermiso)
                 {
                     $hubo++;
                     $id_permi = $permisos[$i];
-                    Log::info("id_permi".$id_permi);
+                    //Log::info("id_permi".$id_permi);
                     $user_permiso                 = new User_Permiso();
                     $user_permiso->user_id        = $request->user_id;
                     $user_permiso->permiso_id     = $id_permi;
