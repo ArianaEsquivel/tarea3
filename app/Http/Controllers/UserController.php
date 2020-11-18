@@ -230,7 +230,6 @@ class UserController extends Controller
             return response()->json($user, 201);
         
         return abort(400, "Error al registrar usuario");
-        
     }
 
     public function borrarfoto(Request $request)
@@ -294,7 +293,7 @@ class UserController extends Controller
             }
             $despues = user::select('name', 'foto')->where('id', $request->id)->first();
             if ($despues) {
-                return response()->json(["Se editó la foto de:"=>$antes,"a:"=>$despues ]);
+                return response()->json(["Se editó la foto de:"=>$antes,"a:"=>$despues], 2001);
             }
             return abort(400, "Error al editar foto, verifique que los datos sean correctos
             los campos incluyendo el id y que este pertenezca a un usuario");
@@ -325,7 +324,7 @@ class UserController extends Controller
             }
             $despues = user::select('name', 'foto')->where('id', $request->user()->id)->first();
             if ($despues) {
-                return response()->json(["Se editó tu foto de:"=>$antes,"a:"=>$despues ]);
+                return response()->json(["Se editó tu foto de:"=>$antes,"a:"=>$despues ], 201);
             }
             return abort(400, "Error al editar tu foto");
         }

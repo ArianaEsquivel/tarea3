@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\posts;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Http\File;
 
 class PostsController extends Controller
 {
@@ -18,7 +20,7 @@ class PostsController extends Controller
         if ($request->user()->tokenCan('user:index') or $request->user()->tokenCan('admin:index')) {
             $posts = DB::table('posts')
                 ->join('users', 'posts.user_id', '=', 'users.id')
-                ->select('posts.id as post_id', 'posts.titulo', 'posts.descripcion','posts.user_id', 'users.name as autor')
+                ->select('posts.id as post_id', 'posts.titulo', 'posts.descripcion','posts.user_id', 'posts.imagen', 'users.name as autor')
                 ->get();
             return response()->json(["Posts:"=>$posts], 200);
         }
@@ -52,10 +54,30 @@ class PostsController extends Controller
             $post->titulo        = $request->titulo;
             $post->descripcion   = $request->descripcion;
             $post->user_id       = $request->user()->id;
+            if ($request->hasFile('imagen')) {
+                switch($request->imagen->extension()){
+                    case "jpeg":
+                        $path = Storage::disk('public')->putFile('imagenes_posts/img_jpeg', $request->imagen);
+                    break;
+                    case "jpg":
+                        $path = Storage::disk('public')->putFile('imagenes_posts/img_jpg', $request->imagen);
+                    break;
+                    case "heic":
+                        $path = Storage::disk('public')->putFile('imagenes_posts/img_heic', $request->imagen);
+                    break;
+                    case "png":
+                        $path = Storage::disk('public')->putFile('imagenes_posts/img_png', $request->imagen);
+                    break;
+                    default:
+                        return response()->json(["Sólo los archivos .jpeg, .jpg, .png y .heic son compatibles, verifica la extensión."], 400);
+                    break;
+                }
+                $post->imagen       = $path;
+            }
             if ($post->save()) {
                 $guardado = DB::table('posts')
                 ->join('users', 'posts.user_id', '=', 'users.id')
-                ->select('posts.id', 'posts.titulo', 'posts.descripcion','users.name as autor')
+                ->select('posts.id', 'posts.titulo', 'posts.descripcion', 'posts.imagen', 'users.name as autor')
                 ->where('posts.id',$post->id)
                 ->get();
                 return response()->json(["Post publicado:"=>$guardado], 201);
@@ -138,6 +160,10 @@ class PostsController extends Controller
             DB::table('comentarios')->where('post_id', '=', $request->id)->delete();
             DB::table('posts')->where('id', '=', $request->id)->delete();
             if ($eliminado) {
+                if ($eliminado->imagen)
+                {
+                    Storage::delete('public/'.$eliminado->imagen);
+                }
                 return response()->json(["Se eliminó el post:"=>$eliminado]);
             }
             else {
@@ -146,7 +172,12 @@ class PostsController extends Controller
         }
         else if ($request->user()->tokenCan('user:delete')) {
             $eliminado = posts::where('id', $request->id)->where('user_id', $request->user()->id)->first();
+            Log::info($eliminado);
             if ($eliminado) {
+                if ($eliminado->imagen)
+                {
+                    Storage::delete('public/'.$eliminado->imagen);
+                }
                 DB::table('comentarios')->where('post_id', '=', $request->id)->delete();
                 DB::table('posts')->where('id', '=', $request->id)->delete();
                 return response()->json(["Eliminaste tu post:"=>$eliminado]);
@@ -155,5 +186,72 @@ class PostsController extends Controller
                 return response()->json("No se eliminó ningún post, verifica que el post exista y sea tuyo");
             }
         }
+    }
+
+    public function borrarimagen(Request $request)
+    {
+        if ($request->user()->tokenCan('admin:delete')) {
+            $eliminado = posts::select('id', 'titulo', 'imagen')->where('id', $request->post_id)->where('user_id', $request->user_id)->first();
+            if ($eliminado->imagen) {
+                Storage::delete('public/'.$eliminado->imagen);
+                DB::table('users')->where('id', $request->user_id)
+                            ->update(['foto' => null]);
+                return response()->json(["Se eliminó la imagen del post:"=>$eliminado]);
+            }
+            else {
+                return response()->json("No se eliminó ningúna imagen, verifica que el usuario exista o tenga foto");
+            }
+        }
+        else if ($request->user()->tokenCan('user:delete')) {
+            $eliminado = posts::select('id', 'titulo', 'imagen')->where('id', $request->post_id)->where('user_id', $request->user()->id)->first();
+            if ($eliminado->imagen) {
+                Storage::delete('public/'.$eliminado->imagen);
+                DB::table('posts')->where('id', $request->post_id)
+                            ->update(['imagen' => null]);
+                return response()->json(["Se eliminó la imagen del post:"=>$eliminado]);
+            }
+            else {
+                return response()->json("No se eliminó ningúna imagen, verifica que el post exista o tenga imagen");
+            }
+        }
+    }
+
+    public function cambiarimagen(Request $request)
+    {
+        if ($request->user()->tokenCan('user:update') or $request->user()->tokenCan('admin:update')) {
+            $antes = posts::select('id', 'titulo', 'imagen')->where('id', $request->id)->where('user_id', $request->user()->id)->first();
+            if (!$antes)
+            {
+                return abort(400, "Verifica que el post exista y sea tuyo");
+            }
+            Storage::delete('public/'.$antes->imagen);
+            if ($request->hasFile('imagen')) {
+                switch($request->imagen->extension()){
+                    case "jpeg":
+                        $path = Storage::disk('public')->putFile('imagenes_posts/img_jpeg', $request->imagen);
+                    break;
+                    case "jpg":
+                        $path = Storage::disk('public')->putFile('imagenes_posts/img_jpg', $request->imagen);
+                    break;
+                    case "heic":
+                        $path = Storage::disk('public')->putFile('imagenes_posts/img_heic', $request->imagen);
+                    break;
+                    case "png":
+                        $path = Storage::disk('public')->putFile('imagenes_posts/img_png', $request->imagen);
+                    break;
+                    default:
+                        return response()->json(["Sólo los archivos .jpeg, .jpg, .png y .heic son compatibles, verifica la extensión."], 400);
+                    break;
+                }
+                DB::table('posts')->where('id', $request->id)
+                            ->update(['imagen' => $path]);
+            }
+            $despues = posts::select('id', 'titulo', 'imagen')->where('id', $request->id)->where('user_id', $request->user()->id)->first();
+            if ($despues) {
+                return response()->json(["Se editó tu imagen del post de:"=>$antes,"a:"=>$despues, 201]);
+            }
+            return abort(400, "Error al editar tu imagen");
+        }
+        return abort(401, "No tienes autorización para cambiar imagenes");
     }
 }
