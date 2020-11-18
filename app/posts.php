@@ -15,6 +15,6 @@ class posts extends Model
         return $this->belongsTo('App\User');
     }
     protected $fillable = [
-        'titulo', 'descripcion','user_id'
+        'titulo', 'descripcion', 'imagen', 'user_id'
     ];
 }
