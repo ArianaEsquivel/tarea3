@@ -6,6 +6,8 @@ use App\user_permiso;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Log;
+use App\permisos;
+use App\User;
 
 class UserPermisoController extends Controller
 {
@@ -132,19 +134,49 @@ class UserPermisoController extends Controller
         if ($request->user()->tokenCan('admin:asignar')) {
             $permisos = DB::table('permisos')->select('id')->where('tipo', 'like', $request->rol.':%')->get()->pluck('id')
             ->toArray();
-            //Log::info(["permisos"=>$permisos]);
-            //Log::info("IDD".$permisos[2]);
+            $user = User::where('id', '=', $request->user_id)->first();
+            Log::info(["permisos"=>$permisos]);
+            Log::info("user".$user);
+            if (!$permisos || !$user)
+            {
+                return abort(400, "Verifica que tu user_id y rol sean existentes");
+            }
+            
             $tot = count($permisos);
-            for($i = 0; $i <= $tot; $i++)
+            $hubo = 0;
+            for($i = 0; $i < $tot; $i++)
             {
                 //Log::info("IDD".$permisos[$i]);
-                $user_permiso                 = new User_Permiso();
+                $userpermiso = DB::table('user_permisos')
+                ->join('users', 'user_permisos.user_id', '=', 'users.id')
+                ->join('permisos', 'user_permisos.permiso_id', '=', 'permisos.id')
+                ->select('permisos.id')
+                ->where('permisos.id', '=', $permisos[$i])
+                ->where('users.id', '=', $request->user_id)
+                ->first();
+                
+                Log::info('userpermiso',[$userpermiso]);
+                if (!$userpermiso)
+                {
+                    $hubo++;
+                    $id_permi = $permisos[$i];
+                    Log::info("id_permi".$id_permi);
+                    $user_permiso                 = new User_Permiso();
                     $user_permiso->user_id        = $request->user_id;
-                    $user_permiso->permiso_id     = $permisos[$i];
+                    $user_permiso->permiso_id     = $id_permi;
                     $hecho = $user_permiso->save();
+                }
                 //user_permiso::insert([
                     //  'user_id'=> $request->user_id,
                     //'permiso_id' => $permisos[$i]]);
+            }
+            if ($hubo == 0)
+            {
+                return response()->json("Estos roles ya están asignados al usuario", 201);
+            }
+            else
+            {
+                return response()->json("Fueron asignados " . $hubo. " roles al user_id " . $request->user_id, 201);
             }
             //Log::info("countt ".count($permisos));
         }

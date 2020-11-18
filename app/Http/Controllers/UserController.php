@@ -7,7 +7,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
-
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Http\File;
+use Log;
 
 class UserController extends Controller
 {
@@ -121,12 +123,17 @@ class UserController extends Controller
     public function destroy(Request $request)
     {
         if ($request->user()->tokenCan('admin:delete')) {
-            $eliminado = user::where('id', $request->id)->first();
+            $eliminado = User::where('id', '=', $request->id)->first();
             DB::table('user_permisos')->where('user_id', '=', $request->id)->delete();
             DB::table('comentarios')->where('user_id', '=', $request->id)->delete();
             DB::table('posts')->where('user_id', '=', $request->id)->delete();
             DB::table('users')->where('id', '=', $request->id)->delete();
             if ($eliminado) {
+                if ($eliminado->foto)
+                {
+                    //Log::info($eliminado->foto);
+                    Storage::delete('public/'.$eliminado->foto);
+                }
                 return response()->json(["Se eliminó el usuario:"=>$eliminado]);
             }
             else {
@@ -140,6 +147,11 @@ class UserController extends Controller
             DB::table('posts')->where('user_id', '=', $request->user()->id)->delete();
             DB::table('users')->where('id', '=', $request->user()->id)->delete();
             if ($eliminado) {
+                if ($eliminado->foto)
+                {
+                    Log::info($eliminado->foto);
+                    Storage::delete('public/'.$eliminado->foto);
+                }
                 return response()->json(["Eliminaste tu usuario:"=>$eliminado]);
             }
             else {
@@ -185,17 +197,68 @@ class UserController extends Controller
             'email' => 'required|email',
             'password' => 'required',
         ]);
-        
+
         $user              = new User();
         $user->name        = $request->name;
         $user->age         = $request->age;
         $user->email       = $request->email;
         $user->password    = Hash::make($request->password);
+        
+        if ($request->hasFile('foto')) {
+            //$path = Storage::disk('public')->putFile('fotos_usuarios/', $request->foto);
+            switch($request->foto->extension()){
+                case "jpeg":
+                    $path = Storage::disk('public')->putFile('fotos_usuarios/img_jpeg', $request->foto);
+                break;
+                case "jpg":
+                    $path = Storage::disk('public')->putFile('fotos_usuarios/img_jpg', $request->foto);
+                break;
+                case "heic":
+                    $path = Storage::disk('public')->putFile('fotos_usuarios/img_heic', $request->foto);
+                break;
+                case "png":
+                    $path = Storage::disk('public')->putFile('fotos_usuarios/img_png', $request->foto);
+                break;
+                default:
+                    return response()->json(["Sólo los archivos .jpeg, .jpg, .png y .heic son compatibles, verifica la extensión."], 400);
+                break;
+            }
+            $user->foto       = $path;
+        }
         if ($user->save())
             return response()->json($user, 201);
         
         return abort(400, "Error al registrar usuario");
         
+    }
+
+    public function foto(Request $request)
+    {
+        if ($request->user()->tokenCan('admin:delete')) {
+            $eliminado = User::select('name', 'foto')->where('id', '=', $request->id)->first();
+            if ($eliminado->foto) {
+                Storage::delete('public/'.$eliminado->foto);
+                DB::table('users')->where('id', $request->id)
+                            ->update(['foto' => null]);
+                return response()->json(["Se eliminó la foto del usuario:"=>$eliminado]);
+            }
+            else {
+                return response()->json("No se eliminó ningúna foto, verifica que el usuario exista o tenga foto");
+            }
+        }
+        else if ($request->user()->tokenCan('user:delete')) {
+            $eliminado = user::where('id', $request->user()->id)->first();
+            $eliminado = User::select('name', 'foto')->where('id', '=', $request->id)->first();
+            if ($eliminado->foto) {
+                Storage::delete('public/'.$eliminado->foto);
+                DB::table('users')->where('id', $request->id)
+                            ->update(['foto' => null]);
+                return response()->json(["Se eliminó la foto del usuario:"=>$eliminado]);
+            }
+            else {
+                return response()->json("No se eliminó ningúna foto, verifica que el usuario exista o tenga foto");
+            }
+        }
     }
 
     public function cuenta()

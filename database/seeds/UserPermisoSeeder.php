@@ -23,7 +23,7 @@ class UserPermisoSeeder extends Seeder
         ->toArray();
         $id_admi = $admin[0];
 
-        for($i = 0; $i < count($permisos); $i++)
+        for($i = 0; $i < 5; $i++)
         {
             $userpermiso = DB::table('user_permisos')
                 ->join('users', 'user_permisos.user_id', '=', 'users.id')

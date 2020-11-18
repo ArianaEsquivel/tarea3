@@ -1,0 +1,40 @@
+[2020-11-18 08:12:44] local.INFO: array (
+  'permisos' => 
+  array (
+    0 => 7,
+    1 => 9,
+    2 => 6,
+    3 => 8,
+  ),
+)  
+[2020-11-18 08:12:44] local.INFO: user  
+[2020-11-18 08:13:00] local.INFO: array (
+  'permisos' => 
+  array (
+    0 => 7,
+    1 => 9,
+    2 => 6,
+    3 => 8,
+  ),
+)  
+[2020-11-18 08:13:00] local.INFO: user  
+[2020-11-18 08:13:03] local.INFO: array (
+  'permisos' => 
+  array (
+    0 => 7,
+    1 => 9,
+    2 => 6,
+    3 => 8,
+  ),
+)  
+[2020-11-18 08:13:03] local.INFO: user{"id":28,"name":"seee","foto":"fotos_usuarios\/img_jpeg\/H5ngOvAMNcHAgYC5XBlaGDBJmyP4hfYwtJOjPE5E.jpeg","age":19,"email":"ari@gmail.com","email_verified_at":null,"created_at":"2020-11-18T06:57:09.000000Z","updated_at":"2020-11-18T06:57:09.000000Z"}  
+[2020-11-18 08:13:03] local.INFO: userpermiso [{"stdClass":{"id":7}}] 
+[2020-11-18 08:13:03] local.INFO: userpermiso [{"stdClass":{"id":9}}] 
+[2020-11-18 08:13:03] local.INFO: userpermiso [{"stdClass":{"id":6}}] 
+[2020-11-18 08:13:03] local.INFO: userpermiso [{"stdClass":{"id":8}}] 
+[2020-11-18 08:13:07] local.INFO: array (
+  'permisos' => 
+  array (
+  ),
+)  
+[2020-11-18 08:13:07] local.INFO: user{"id":28,"name":"seee","foto":"fotos_usuarios\/img_jpeg\/H5ngOvAMNcHAgYC5XBlaGDBJmyP4hfYwtJOjPE5E.jpeg","age":19,"email":"ari@gmail.com","email_verified_at":null,"created_at":"2020-11-18T06:57:09.000000Z","updated_at":"2020-11-18T06:57:09.000000Z"}  

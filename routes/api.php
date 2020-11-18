@@ -82,4 +82,7 @@ Route::middleware('auth:sanctum')->post('comentarios', 'ComentariosController@st
 Route::middleware('auth:sanctum')->put('comentarios', 'ComentariosController@update');
 Route::middleware('auth:sanctum')->delete('comentarios', 'ComentariosController@destroy');
 
+//FOTOS
+Route::middleware('auth:sanctum')->put('foto', 'UserController@foto');
+
 
