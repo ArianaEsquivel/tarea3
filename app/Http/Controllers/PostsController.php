@@ -57,16 +57,16 @@ class PostsController extends Controller
             if ($request->hasFile('imagen')) {
                 switch($request->imagen->extension()){
                     case "jpeg":
-                        $path = Storage::disk('public')->putFile('imagenes_posts/img_jpeg', $request->imagen);
+                        $path = Storage::disk('public')->putFile('imagenes_posts', $request->imagen);
                     break;
                     case "jpg":
-                        $path = Storage::disk('public')->putFile('imagenes_posts/img_jpg', $request->imagen);
+                        $path = Storage::disk('public')->putFile('imagenes_posts', $request->imagen);
                     break;
                     case "heic":
-                        $path = Storage::disk('public')->putFile('imagenes_posts/img_heic', $request->imagen);
+                        $path = Storage::disk('public')->putFile('imagenes_posts', $request->imagen);
                     break;
                     case "png":
-                        $path = Storage::disk('public')->putFile('imagenes_posts/img_png', $request->imagen);
+                        $path = Storage::disk('public')->putFile('imagenes_posts', $request->imagen);
                     break;
                     default:
                         return response()->json(["Sólo los archivos .jpeg, .jpg, .png y .heic son compatibles, verifica la extensión."], 400);
@@ -224,29 +224,30 @@ class PostsController extends Controller
             {
                 return abort(400, "Verifica que el post exista y sea tuyo");
             }
-            Storage::delete('public/'.$antes->imagen);
             if ($request->hasFile('imagen')) {
                 switch($request->imagen->extension()){
                     case "jpeg":
-                        $path = Storage::disk('public')->putFile('imagenes_posts/img_jpeg', $request->imagen);
+                        $path = Storage::disk('public')->putFile('imagenes_posts', $request->imagen);
                     break;
                     case "jpg":
-                        $path = Storage::disk('public')->putFile('imagenes_posts/img_jpg', $request->imagen);
+                        $path = Storage::disk('public')->putFile('imagenes_posts', $request->imagen);
                     break;
                     case "heic":
-                        $path = Storage::disk('public')->putFile('imagenes_posts/img_heic', $request->imagen);
+                        $path = Storage::disk('public')->putFile('imagenes_posts', $request->imagen);
                     break;
                     case "png":
-                        $path = Storage::disk('public')->putFile('imagenes_posts/img_png', $request->imagen);
+                        $path = Storage::disk('public')->putFile('imagenes_posts', $request->imagen);
                     break;
                     default:
                         return response()->json(["Sólo los archivos .jpeg, .jpg, .png y .heic son compatibles, verifica la extensión."], 400);
                     break;
                 }
-                DB::table('posts')->where('id', $request->id)
-                            ->update(['imagen' => $path]);
+                if ($path) {
+                    Storage::delete('public/'.$antes->imagen);
+                    DB::table('posts')->where('id', $request->id)->update(['imagen' => $path]);
+                    $despues = posts::select('id', 'titulo', 'imagen')->where('id', $request->id)->where('user_id', $request->user()->id)->first();
+                }
             }
-            $despues = posts::select('id', 'titulo', 'imagen')->where('id', $request->id)->where('user_id', $request->user()->id)->first();
             if ($despues) {
                 return response()->json(["Se editó tu imagen del post de:"=>$antes,"a:"=>$despues, 201]);
             }

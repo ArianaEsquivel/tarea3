@@ -83,10 +83,10 @@ Route::middleware('auth:sanctum')->put('comentarios', 'ComentariosController@upd
 Route::middleware('auth:sanctum')->delete('comentarios', 'ComentariosController@destroy');
 
 //FOTOS
-Route::middleware('auth:sanctum')->put('borrarfoto', 'UserController@borrarfoto');
+Route::middleware('auth:sanctum')->delete('borrarfoto', 'UserController@borrarfoto');
 Route::middleware('auth:sanctum')->post('cambiarfoto', 'UserController@cambiarfoto');
 
 //IMAGENES
-Route::middleware('auth:sanctum')->put('borrarimagen', 'PostsController@borrarimagen');
+Route::middleware('auth:sanctum')->delete('borrarimagen', 'PostsController@borrarimagen');
 Route::middleware('auth:sanctum')->post('cambiarimagen', 'PostsController@cambiarimagen');
 

@@ -209,16 +209,16 @@ class UserController extends Controller
             //$path = Storage::disk('public')->putFile('fotos_usuarios/', $request->foto);
             switch($request->foto->extension()){
                 case "jpeg":
-                    $path = Storage::disk('public')->putFile('fotos_usuarios/img_jpeg', $request->foto);
+                    $path = Storage::disk('public')->putFile('fotos_usuarios', $request->foto);
                 break;
                 case "jpg":
-                    $path = Storage::disk('public')->putFile('fotos_usuarios/img_jpg', $request->foto);
+                    $path = Storage::disk('public')->putFile('fotos_usuarios', $request->foto);
                 break;
                 case "heic":
-                    $path = Storage::disk('public')->putFile('fotos_usuarios/img_heic', $request->foto);
+                    $path = Storage::disk('public')->putFile('fotos_usuarios', $request->foto);
                 break;
                 case "png":
-                    $path = Storage::disk('public')->putFile('fotos_usuarios/img_png', $request->foto);
+                    $path = Storage::disk('public')->putFile('fotos_usuarios', $request->foto);
                 break;
                 default:
                     return response()->json(["Sólo los archivos .jpeg, .jpg, .png y .heic son compatibles, verifica la extensión."], 400);
@@ -236,28 +236,28 @@ class UserController extends Controller
     {
         if ($request->user()->tokenCan('admin:delete')) {
             $eliminado = User::select('name', 'foto')->where('id', '=', $request->id)->first();
-            if ($eliminado->foto) {
-                Storage::delete('public/'.$eliminado->foto);
-                DB::table('users')->where('id', $request->id)
-                            ->update(['foto' => null]);
-                return response()->json(["Se eliminó la foto del usuario:"=>$eliminado]);
+            if ($eliminado) {
+                if ($eliminado->foto) {
+                    Storage::delete('public/'.$eliminado->foto);
+                    DB::table('users')->where('id', $request->id)
+                                ->update(['foto' => null]);
+                    return response()->json(["Se eliminó la foto del usuario:"=>$eliminado]);
+                }
             }
-            else {
-                return response()->json("No se eliminó ningúna foto, verifica que el usuario exista o tenga foto");
-            }
+            return response()->json("No se eliminó ningúna foto, verifica que el usuario exista o tenga foto");
         }
         else if ($request->user()->tokenCan('user:delete')) {
             $eliminado = user::where('id', $request->user()->id)->first();
             $eliminado = User::select('name', 'foto')->where('id', '=', $request->id)->first();
-            if ($eliminado->foto) {
-                Storage::delete('public/'.$eliminado->foto);
-                DB::table('users')->where('id', $request->id)
-                            ->update(['foto' => null]);
-                return response()->json(["Se eliminó la foto del usuario:"=>$eliminado]);
+            if ($eliminado) {
+                if ($eliminado->foto) {
+                    Storage::delete('public/'.$eliminado->foto);
+                    DB::table('users')->where('id', $request->id)
+                                ->update(['foto' => null]);
+                    return response()->json(["Se eliminó la foto del usuario:"=>$eliminado]);
+                }
             }
-            else {
-                return response()->json("No se eliminó ningúna foto, verifica que el usuario exista o tenga foto");
-            }
+            return response()->json("No se eliminó tu foto, verifica que tengas tengas foto");
         }
     }
 
@@ -265,64 +265,67 @@ class UserController extends Controller
     {
         if ($request->user()->tokenCan('admin:update')) {
             $antes = user::select('name', 'foto')->where('id', $request->id)->first();
+            Log::info("id:".$request->id);
             if (!$antes)
             {
                 return abort(400, "Verifica que el id sea existentes");
             }
-            Storage::delete('public/'.$antes->foto);
             if ($request->hasFile('foto')) {
                 switch($request->foto->extension()){
                     case "jpeg":
-                        $path = Storage::disk('public')->putFile('fotos_usuarios/img_jpeg', $request->foto);
+                        $path = Storage::disk('public')->putFile('fotos_usuarios', $request->foto);
                     break;
                     case "jpg":
-                        $path = Storage::disk('public')->putFile('fotos_usuarios/img_jpg', $request->foto);
+                        $path = Storage::disk('public')->putFile('fotos_usuarios', $request->foto);
                     break;
                     case "heic":
-                        $path = Storage::disk('public')->putFile('fotos_usuarios/img_heic', $request->foto);
+                        $path = Storage::disk('public')->putFile('fotos_usuarios', $request->foto);
                     break;
                     case "png":
-                        $path = Storage::disk('public')->putFile('fotos_usuarios/img_png', $request->foto);
+                        $path = Storage::disk('public')->putFile('fotos_usuarios', $request->foto);
                     break;
                     default:
                         return response()->json(["Sólo los archivos .jpeg, .jpg, .png y .heic son compatibles, verifica la extensión."], 400);
                     break;
                 }
-                DB::table('users') ->where('id', $request->id)
-                            ->update(['foto' => $path]);
+                if ($path) {
+                    Storage::delete('public/'.$antes->foto);
+                    DB::table('users') ->where('id', $request->id)->update(['foto' => $path]);
+                    $despues = user::select('name', 'foto')->where('id', $request->id)->first();
+                }
             }
-            $despues = user::select('name', 'foto')->where('id', $request->id)->first();
             if ($despues) {
-                return response()->json(["Se editó la foto de:"=>$antes,"a:"=>$despues], 2001);
+                return response()->json(["Se editó la foto de:"=>$antes,"a:"=>$despues], 201);
             }
             return abort(400, "Error al editar foto, verifique que los datos sean correctos
             los campos incluyendo el id y que este pertenezca a un usuario");
         }
         else if ($request->user()->tokenCan('user:update')) {
             $antes = user::select('name', 'foto')->where('id', $request->user()->id)->first();
-            Storage::delete('public/'.$antes->foto);
             if ($request->hasFile('foto')) {
                 switch($request->foto->extension()){
                     case "jpeg":
-                        $path = Storage::disk('public')->putFile('fotos_usuarios/img_jpeg', $request->foto);
+                        $path = Storage::disk('public')->putFile('fotos_usuarios', $request->foto);
                     break;
                     case "jpg":
-                        $path = Storage::disk('public')->putFile('fotos_usuarios/img_jpg', $request->foto);
+                        $path = Storage::disk('public')->putFile('fotos_usuarios', $request->foto);
                     break;
                     case "heic":
-                        $path = Storage::disk('public')->putFile('fotos_usuarios/img_heic', $request->foto);
+                        $path = Storage::disk('public')->putFile('fotos_usuarios', $request->foto);
                     break;
                     case "png":
-                        $path = Storage::disk('public')->putFile('fotos_usuarios/img_png', $request->foto);
+                        $path = Storage::disk('public')->putFile('fotos_usuarios', $request->foto);
                     break;
                     default:
                         return response()->json(["Sólo los archivos .jpeg, .jpg, .png y .heic son compatibles, verifica la extensión."], 400);
                     break;
                 }
-                DB::table('users') ->where('id', $request->user()->id)
-                            ->update(['foto' => $path]);
+                if ($path) {
+                    Storage::delete('public/'.$antes->foto);
+                    DB::table('users') ->where('id', $request->user()->id)->update(['foto' => $path]);
+                    $despues = user::select('name', 'foto')->where('id', $request->user()->id)->first();
+                }
             }
-            $despues = user::select('name', 'foto')->where('id', $request->user()->id)->first();
             if ($despues) {
                 return response()->json(["Se editó tu foto de:"=>$antes,"a:"=>$despues ], 201);
             }
