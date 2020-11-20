@@ -7,6 +7,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Mail\Mailable;
+use App\User;
+use Log;
+use Illuminate\Support\Facades\Storage;
 
 class ComentariosController extends Controller
 {
@@ -22,8 +25,8 @@ class ComentariosController extends Controller
             $comentarios = DB::table('comentarios')
                 ->join('users', 'comentarios.user_id', '=', 'users.id')
                 ->join('posts', 'posts.id', '=', 'comentarios.post_id')
-                ->select('comentarios.id as comentario_id', 'comentarios.comentario', 'users.name as comentario_autor',
-                 'comentarios.post_id', 'posts.titulo as post_titulo')
+                ->select('comentarios.post_id', 'posts.titulo as post_titulo',
+                'comentarios.id as comentario_id', 'comentarios.comentario', 'users.name as comentario_autor')
                 ->get();
             return response()->json(["Comentarios:"=>$comentarios], 200);
         }
@@ -74,17 +77,65 @@ class ComentariosController extends Controller
                 $comentario->user_id       = $user->id;
                 $comentario->save();
                 $guardado = DB::table('comentarios')
-                ->join('users', 'comentarios.user_id', '=', 'users.id')
                 ->join('posts', 'posts.id', '=', 'comentarios.post_id')
-                ->select('comentarios.id as comentario_id', 'comentarios.comentario', 'users.name as comentario_autor',
-                 'comentarios.post_id', 'posts.titulo as post_titulo')
+                ->join('users', 'posts.user_id', '=', 'users.id')
+                ->select('comentarios.post_id', 'posts.titulo as post_titulo', 'posts.imagen', 'users.name as post_autor',
+                    'comentarios.id as comentario_id', 'comentarios.comentario')
                 ->where('comentarios.id',$comentario->id)
-                ->get();
+                ->first();
+                $receptor =  DB::table('posts')
+                ->join('users', 'posts.user_id', '=', 'users.id')
+                ->select('users.email', 'posts.descripcion')
+                ->where('posts.id',$guardado->post_id)
+                ->first();
+                $data = array (
+                    'comentario_autor' => $user->name, 
+                    'comentario_email' => $user->email,
+                    'comentario_comentario' => $guardado->comentario,
+                    'post_autor' => $guardado->post_autor, 
+                    'post_email' => $receptor->email,
+                    'post_titulo' => $guardado->post_titulo,
+                    'post_descripcion' => $receptor->descripcion,
+                    'post_imagen' => $guardado->imagen
+                );
+                Mail::send('emails.comentariocreado', $data, function ($message) use ($data) {
+                    $message->from('19170089@uttcampus.edu.mx', 'Ariana Esquivel');
+                    $message->to($data['comentario_email'], $data['comentario_autor'])->
+                    subject('Aviso');
+                    //if ($data['post_imagen'])
+                    //{
+                      //  $message->attach('storage/public/'.$data['post_imagen']);
+                            
+                    //}
+                });
+                Mail::send('emails.comentariorecibido', $data, function ($message) use ($data) {
+                    $message->from('19170089@uttcampus.edu.mx', 'Ariana Esquivel');
+                    $message->to($data['post_email'], $data['post_autor'])->
+                    subject('Aviso');
+                    //if ($data['post_imagen'])
+                    //{
+                    //    $message->attach('storage/public/'.$data['post_imagen']);
+                    //}
+                });
                 return response()->json(["Comentario publicado:"=>$guardado], 201);
             }
             return abort(400, "Verifica que el post que quieres comentar exista");
         }
-        return abort(401, "No tienes autorización para comentar posts");
+        else {
+            $data = array (
+                'name' => $user->name, 
+                'email' => $user->email, 
+                'permiso' => 'admin:create o user:create',
+                'razón' => 'comentar un post'
+            );
+
+            Mail::send('emails.sinpermiso', $data, function ($message) use ($data) {
+                $message->from('19170089@uttcampus.edu.mx', 'Ariana Esquivel');
+                $message->to('19170089@uttcampus.edu.mx', 'Administrador')->
+                subject('Aviso');
+            });
+            return response()->json("No tienes permiso de comentar posts", 401);
+        }
     }
 
     /**
@@ -119,20 +170,13 @@ class ComentariosController extends Controller
      */
     public function update(Request $request)
     {
-        /*if ($request->user()->tokenCan('admin:update')) {
-            $antes = comentarios::where('id', $request->id)->first();
-            DB::table('comentarios') ->where('id', $request->id)
-                            ->update(['comentario' => $request->comentario]);
-            $despues = comentarios::where('id', $request->id)->first();
-            if ($despues) {
-
-                return response()->json(["Se editó el post de:"=>$antes,"a:"=>$despues ]);
+        $user = $request->user();
+        if ($user->tokenCan('user:update') or $user->tokenCan('admin:update')) {
+            $buscar = comentarios::where('id', $request->id)->first();
+            if(!$buscar) {
+                return response()->json("Este comentario no existe", 400);
             }
-            return abort(400, "Error al editar comentario verifique haber llenado los 
-            campos y que sean correctos");
-        }*/
-        if ($request->user()->tokenCan('user:update') or $request->user()->tokenCan('admin:update')) {
-            $antes = comentarios::where('id', $request->id)->where('user_id', $request->user()->id)->first();
+            $antes = comentarios::where('id', $request->id)->where('user_id', $user->id)->first();
             if ($antes) {
                 DB::table('comentarios') ->where('id', $request->id)
                                         ->update(['comentario' => $request->comentario]);
@@ -141,8 +185,37 @@ class ComentariosController extends Controller
                     return response()->json(["Editaste tu comentario de:"=>$antes,"a:"=>$despues ]);
                 }
             }
-            return abort(400, "Error al editar comentario seleccione un comentario suyo");
+            $data = array (
+                'name' => $user->name, 
+                'email' => $user->email, 
+                'permiso' => 'de editarlo',
+                'razón' => 'editar un comentario que no es suyo',
+            );
+
+            Mail::send('emails.sinpermiso', $data, function ($message) use ($data) {
+                $message->from('19170089@uttcampus.edu.mx', 'Ariana Esquivel');
+                $message->to('19170089@uttcampus.edu.mx', 'Administrador')->
+                subject('Aviso');
+            });
+            return response()->json("Error al editar post seleccione un comentario suyo", 400);
         }
+        else {
+            $data = array (
+                'name' => $user->name, 
+                'email' => $user->email, 
+                'permiso' => 'admin:update o user:update',
+                'razón' => 'actualizar un comentario',
+            );
+
+            Mail::send('emails.sinpermiso', $data, function ($message) use ($data) {
+                $message->from('19170089@uttcampus.edu.mx', 'Ariana Esquivel');
+                $message->to('19170089@uttcampus.edu.mx', 'Administrador')->
+                subject('Aviso');
+            });
+            return response()->json("No tienes permiso de actualizar comentarios", 401);
+        }
+
+
         return abort(401, "No tienes autorización para editar comentarios");
     }
 
@@ -154,7 +227,8 @@ class ComentariosController extends Controller
      */
     public function destroy(Request $request)
     {
-        if ($request->user()->tokenCan('admin:delete')) {
+        $user = $request->user();
+        if ($user->tokenCan('admin:delete')) {
             $eliminado = comentarios::where('id', $request->id)->first();
             DB::table('comentarios')->where('id', '=', $request->id)->delete();
             if ($eliminado) {
@@ -164,7 +238,11 @@ class ComentariosController extends Controller
                 return response()->json("No se eliminó ningún comentario, verifica que el comentario exista");
             }
         }
-        else if ($request->user()->tokenCan('user:delete')) {
+        else if ($user->tokenCan('user:delete')) {
+            $post = comentarios::where('id', $request->id)->first();
+            if (!$post){
+                return response()->json("Este comentario no existe");
+            }
             $eliminado = DB::table('comentarios')
                 ->join('users', 'comentarios.user_id', '=', 'users.id')
                 ->join('posts', 'posts.id', '=', 'comentarios.post_id')
@@ -176,9 +254,35 @@ class ComentariosController extends Controller
                 return response()->json(["Eliminaste tu comentario:"=>$eliminado]);
             }
             else {
-                return response()->json("No se eliminó ningún comentario, verifica que el comentario exista y sea tuyo");
+                $data = array (
+                    'name' => $user->name, 
+                    'email' => $user->email, 
+                    'permiso' => 'de eliminarlo',
+                    'razón' => 'eliminar un comentario que no le pertenece',
+                );
+    
+                Mail::send('emails.sinpermiso', $data, function ($message) use ($data) {
+                    $message->from('19170089@uttcampus.edu.mx', 'Ariana Esquivel');
+                    $message->to('19170089@uttcampus.edu.mx', 'Administrador')->
+                    subject('Aviso');
+                });
+                return response()->json("Lo sentimos, pero este post no te pertenece", 401);
             }
         }
-        DB::table('comentarios')->where('id', '=', $id)->delete();
+        else {
+            $data = array (
+                'name' => $user->name, 
+                'email' => $user->email, 
+                'permiso' => 'admin:delete o user:delete',
+                'razón' => 'eliminar comentario',
+            );
+
+            Mail::send('emails.sinpermiso', $data, function ($message) use ($data) {
+                $message->from('19170089@uttcampus.edu.mx', 'Ariana Esquivel');
+                $message->to('19170089@uttcampus.edu.mx', 'Administrador')->
+                subject('Aviso');
+            });
+            return response()->json("No tienes permiso de eliminar este comentario", 401);
+        }
     }
 }

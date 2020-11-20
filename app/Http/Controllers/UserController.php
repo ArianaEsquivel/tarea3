@@ -361,7 +361,7 @@ class UserController extends Controller
         {
             $permisos = DB::table('permisos')->select('id')->where('tipo', 'like', 'user'.':%')->get()->pluck('id')
             ->toArray();
-            Log::info(["permisos"=>$permisos]);
+            //Log::info(["permisos"=>$permisos]);
             for($i = 0; $i < count($permisos); $i++)
             {
                 $userpermiso = DB::table('user_permisos')

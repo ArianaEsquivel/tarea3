@@ -152,6 +152,11 @@ class PostsController extends Controller
     {
         $user = $request->user();
         if ($user->tokenCan('user:update') or $user->tokenCan('admin:update') ) {
+            $buscar = posts::where('id', $request->id)->first();
+            //Log::info([$buscar]);
+            if(!$buscar) {
+            return response()->json("Este post no existe", 400);
+            }
             $antes = posts::where('id', $request->id)->where('user_id', $user->id)->first();
             if ($antes) {
                 DB::table('posts') ->where('id', $request->id)
@@ -181,7 +186,7 @@ class PostsController extends Controller
                 'name' => $user->name, 
                 'email' => $user->email, 
                 'permiso' => 'admin:update o user:update',
-                'razón' => 'actualizar posts',
+                'razón' => 'actualizar un post',
             );
 
             Mail::send('emails.sinpermiso', $data, function ($message) use ($data) {
@@ -205,12 +210,12 @@ class PostsController extends Controller
         if ($user->tokenCan('admin:delete')) {
             $eliminado = posts::where('id', $request->id)->first();
             if ($eliminado) {
-                DB::table('comentarios')->where('post_id', '=', $request->id)->delete();
-                DB::table('posts')->where('id', '=', $request->id)->delete();
                 if ($eliminado->imagen)
                 {
                     Storage::delete('public/'.$eliminado->imagen);
                 }
+                DB::table('comentarios')->where('post_id', '=', $request->id)->delete();
+                DB::table('posts')->where('id', '=', $request->id)->delete();
                 return response()->json(["Se eliminó el post:"=>$eliminado]);
             }
             else {

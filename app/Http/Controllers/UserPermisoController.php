@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\DB;
 use Log;
 use App\permisos;
 use App\User;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Mail\Mailable;
 
 class UserPermisoController extends Controller
 {
