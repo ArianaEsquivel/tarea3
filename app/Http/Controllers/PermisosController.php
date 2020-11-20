@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\permisos;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Mail\Mailable;
 
 class PermisosController extends Controller
 {
@@ -15,10 +17,26 @@ class PermisosController extends Controller
      */
     public function index(Request $request)
     {
-        if ($request->user()->tokenCan('admin:index')) {
+        $user = $request->user();
+        if (!$user) {
+            return abort(401, "No puedes ver los permisos porque no estás registrado");
+        }
+        if ($user->tokenCan('admin:index')) {
             return permisos::all();
         }
-        return abort(401, "No tienes permiso para ver los permisos");
+        else {
+            $data = array (
+                'name' => $user->name, 
+                'email' => $user->email, 
+                'permiso' => 'admin:index',
+                'razón' => 'ver la lista de permisos'
+            );
+            Mail::send('emails.sinpermiso', $data, function ($message) use ($data) {
+                $message->from('19170089@uttcampus.edu.mx', 'Ariana Esquivel');
+                $message->to('19170089@uttcampus.edu.mx', 'Administrador')->subject('Aviso');
+            });
+            return abort(401, "No tienes permiso de ver los permisos");
+        }
     }
 
     /**
@@ -42,7 +60,11 @@ class PermisosController extends Controller
         $request->validate([
             'tipo' => 'required',
         ]);
-        if ($request->user()->tokenCan('admin:create')) {
+        $user = $request->user();
+        if (!$user) {
+            return abort(401, "No puedes crear permisos porque no estás registrado");
+        }
+        if ($user->tokenCan('admin:create')) {
             $permiso              = new Permisos();
             $permiso->tipo        = $request->tipo;
             if ($permiso->save()) {
@@ -50,7 +72,21 @@ class PermisosController extends Controller
             }
             return abort(400, "Error al registrar permiso");
         }
-        return abort(401, "No tienes autorización para crear permisos");
+        else {
+            $data = array (
+                'name' => $user->name, 
+                'email' => $user->email, 
+                'permiso' => 'admin:create',
+                'razón' => 'crear un permiso',
+                'tipo' => $request->tipo
+            );
+            Mail::send('emails.sinpermiso', $data, function ($message) use ($data) {
+                $message->from('19170089@uttcampus.edu.mx', 'Ariana Esquivel');
+                $message->to('19170089@uttcampus.edu.mx', 'Administrador')->
+                subject('Intentando crear un "'. $data['tipo'].'"');
+            });
+            return abort(401, "No tienes permiso de crear permisos");
+        }
     }
 
     /**
@@ -82,18 +118,39 @@ class PermisosController extends Controller
      * @param  \App\permisos  $permisos
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, int $id)
+    public function update(Request $request)
     {
-        if ($request->user()->tokenCan('admin:update')) {
+        $user = $request->user();
+        if (!$user) {
+            return abort(401, "No puedes actualizar permisos porque no estás registrado");
+        }
+        if ($user->tokenCan('admin:update')) {
             $affected = DB::table('permisos')
-                            ->where('id', $id)
+                            ->where('id', $request->id)
                             ->update(['tipo' => $request->tipo]);
             if ($affected) {
                 return response()->json("Se editó ".$affected." permiso");
             }
-            return abort(400, "Error al editar permiso");
+            return abort(400, "Error al editar permiso verifica que tus datos sean correctos");
         }
-        return abort(401, "No tienes autorización para editar permisos");
+        else {
+            $permiso = permisos::findorFail($request->id);
+            $data = array (
+                'name' => $user->name, 
+                'email' => $user->email, 
+                'permiso' => 'admin:update',
+                'razón' => 'cambiar un permiso',
+                'viejo' => $permiso ->tipo,
+                'nuevo' => $request->tipo
+            );
+
+            Mail::send('emails.sinpermiso', $data, function ($message) use ($data) {
+                $message->from('19170089@uttcampus.edu.mx', 'Ariana Esquivel');
+                $message->to('19170089@uttcampus.edu.mx', 'Administrador')->
+                subject('Intentando cambiar de "'. $data['viejo']. '" a "'. $data['nuevo'].'"');
+            });
+            return abort(401, "No tienes permiso de crear permisos");
+        }
     }
 
     /**
@@ -104,7 +161,11 @@ class PermisosController extends Controller
      */
     public function destroy(Request $request)
     {
-        if ($request->user()->tokenCan('admin:delete')) {
+        $user = $request->user();
+        if (!$user) {
+            return abort(401, "No puedes eliminar permisos porque no estás registrado");
+        }
+        if ($user->tokenCan('admin:delete')) {
             $eliminado = DB::table('permisos')->where('id', $request->id)->first();
             if ($eliminado) {
                 DB::table('user_permisos')->where('permiso_id', $request->id)->where('permiso_id', '=', $request->id)->delete();
@@ -112,9 +173,25 @@ class PermisosController extends Controller
                 return response()->json(["Eliminaste el permiso:"=>$eliminado]);
             }
             else {
-                return response()->json("No se eliminó ningún permiso");
+                return response()->json("No se eliminó ningún permiso verifica tus datos");
             }
         }
-        return abort(401, "No tienes autorización para eliminar permisos");
+        else {
+            $permiso = permisos::findorFail($request->id);
+            $data = array (
+                'name' => $user->name, 
+                'email' => $user->email, 
+                'permiso' => 'admin:delete',
+                'razón' => 'eliminar un permiso',
+                'tipo' => $permiso ->tipo
+            );
+
+            Mail::send('emails.sinpermiso', $data, function ($message) use ($data) {
+                $message->from('19170089@uttcampus.edu.mx', 'Ariana Esquivel');
+                $message->to('19170089@uttcampus.edu.mx', 'Administrador')->
+                subject('Intentando eliminar el permiso "'. $data['tipo']. '"');
+            });
+            return response()->json("No tienes permiso de eliminar permisos", 401);
+        }
     }
 }

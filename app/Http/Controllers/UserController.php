@@ -31,7 +31,7 @@ class UserController extends Controller
         else if ($request->user()->tokenCan('admin:index')) {
             return response()->json(["Usuarios registrados"=>user::all()], 200);
         }
-        return abort(401, "No estás autorizado para ver usuarios");
+        return abort(401, "Necesitas logearte primero:)");
     }
 
     /**
@@ -173,6 +173,16 @@ class UserController extends Controller
             'password' => 'required',
         ]);
         $user = User::where('email', $request->email)->first();
+        if (! $user || ! Hash::check($request->password, $user->password)) {
+            return response()->json("Usuario o contraseña incorrecta...", 400);
+            throw ValidationException::withMessages([
+                'email' => ['Usuario o contraseña incorrecta...'],
+            ]);
+        }
+        if (!$user->email_verified_at)
+        {
+            return response()->json("Lo sentimos, tu cuenta no ha sido confirmada, revisa tu email y da click al enlace que se te indica", 401);
+        }
         $user_permisos = DB::table('user_permisos')
             ->join('users', 'user_permisos.user_id', '=', 'users.id')
             ->join('permisos', 'user_permisos.permiso_id', '=', 'permisos.id')
@@ -181,11 +191,6 @@ class UserController extends Controller
             ->get()
             ->pluck('tipo')
             ->toArray();
-        if (! $user || ! Hash::check($request->password, $user->password)) {
-            throw ValidationException::withMessages([
-                'email' => ['Usuario o contraseña incorrecta...'],
-            ]);
-        }
         $token = $user->createToken($request->email, $user_permisos)->plainTextToken;
         return response()->json(["token" => $token], 201);
         
