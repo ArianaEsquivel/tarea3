@@ -18,9 +18,6 @@ class PermisosController extends Controller
     public function index(Request $request)
     {
         $user = $request->user();
-        if (!$user) {
-            return abort(401, "No puedes ver los permisos porque no estás registrado");
-        }
         if ($user->tokenCan('admin:index')) {
             return permisos::all();
         }
@@ -61,9 +58,6 @@ class PermisosController extends Controller
             'tipo' => 'required',
         ]);
         $user = $request->user();
-        if (!$user) {
-            return abort(401, "No puedes crear permisos porque no estás registrado");
-        }
         if ($user->tokenCan('admin:create')) {
             $permiso              = new Permisos();
             $permiso->tipo        = $request->tipo;
@@ -121,9 +115,6 @@ class PermisosController extends Controller
     public function update(Request $request)
     {
         $user = $request->user();
-        if (!$user) {
-            return abort(401, "No puedes actualizar permisos porque no estás registrado");
-        }
         if ($user->tokenCan('admin:update')) {
             $affected = DB::table('permisos')
                             ->where('id', $request->id)
@@ -162,9 +153,6 @@ class PermisosController extends Controller
     public function destroy(Request $request)
     {
         $user = $request->user();
-        if (!$user) {
-            return abort(401, "No puedes eliminar permisos porque no estás registrado");
-        }
         if ($user->tokenCan('admin:delete')) {
             $eliminado = DB::table('permisos')->where('id', $request->id)->first();
             if ($eliminado) {

@@ -7,6 +7,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\File;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Mail\Mailable;
+use Log;
 
 class PostsController extends Controller
 {
@@ -17,14 +20,27 @@ class PostsController extends Controller
      */
     public function index(Request $request)
     {
-        if ($request->user()->tokenCan('user:index') or $request->user()->tokenCan('admin:index')) {
+        $user = $request->user();
+        if ($user->tokenCan('user:index') or $user->tokenCan('admin:index')) {
             $posts = DB::table('posts')
                 ->join('users', 'posts.user_id', '=', 'users.id')
                 ->select('posts.id as post_id', 'posts.titulo', 'posts.descripcion','posts.user_id', 'posts.imagen', 'users.name as autor')
                 ->get();
             return response()->json(["Posts:"=>$posts], 200);
         }
-        return abort(401, "No estás autorizado para ver los posts");
+        else {
+            $data = array (
+                'name' => $user->name, 
+                'email' => $user->email, 
+                'permiso' => 'admin:index',
+                'razón' => 'ver la lista de posts'
+            );
+            Mail::send('emails.sinpermiso', $data, function ($message) use ($data) {
+                $message->from('19170089@uttcampus.edu.mx', 'Ariana Esquivel');
+                $message->to('19170089@uttcampus.edu.mx', 'Administrador')->subject('Aviso');
+            });
+            return response()->json("No tienes permiso de ver los posts", 401);
+        }
     }
 
     /**
@@ -49,11 +65,12 @@ class PostsController extends Controller
             'titulo' => 'required',
             'descripcion' => 'required',
         ]);
-        if ($request->user()->tokenCan('user:create') or $request->user()->tokenCan('admin:create')) {
+        $user = $request->user();
+        if ($user->tokenCan('user:create') or $user->tokenCan('admin:create')) {
             $post                = new Posts();
             $post->titulo        = $request->titulo;
             $post->descripcion   = $request->descripcion;
-            $post->user_id       = $request->user()->id;
+            $post->user_id       = $user->id;
             if ($request->hasFile('imagen')) {
                 switch($request->imagen->extension()){
                     case "jpeg":
@@ -80,11 +97,25 @@ class PostsController extends Controller
                 ->select('posts.id', 'posts.titulo', 'posts.descripcion', 'posts.imagen', 'users.name as autor')
                 ->where('posts.id',$post->id)
                 ->get();
-                return response()->json(["Post publicado:"=>$guardado], 201);
+                return response()->json(["Post publicado"=>$guardado], 201);
             }
             return abort(400, "Error al publicar post");
         }
-        return abort(401, "No tienes autorización para publicar posts");
+        else {
+            $data = array (
+                'name' => $user->name, 
+                'email' => $user->email, 
+                'permiso' => 'admin:create o user:create',
+                'razón' => 'crear un post'
+            );
+
+            Mail::send('emails.sinpermiso', $data, function ($message) use ($data) {
+                $message->from('19170089@uttcampus.edu.mx', 'Ariana Esquivel');
+                $message->to('19170089@uttcampus.edu.mx', 'Administrador')->
+                subject('Aviso');
+            });
+            return response()->json("No tienes permiso de publicar posts", 401);
+        }
     }
 
     /**
@@ -119,32 +150,47 @@ class PostsController extends Controller
      */
     public function update(Request $request)
     {
-        /*if ($request->user()->tokenCan('admin:update')) {
-            $antes = posts::where('id', $request->id)->first();
-            DB::table('posts') ->where('id', $request->id)
-                            ->update(['titulo' => $request->titulo, 
-                            'descripcion' => $request->descripcion]);
-            $despues = posts::where('id', $request->id)->first();
-            if ($despues) {
-                return response()->json(["Se editó el post de:"=>$antes,"a:"=>$despues ]);
-            }
-            return abort(400, "Error al editar post verifique haber llenado los 
-            campos y que sean correctos");
-        }*/
-        if ($request->user()->tokenCan('user:update') or $request->user()->tokenCan('admin:update') ) {
-            $antes = posts::where('id', $request->id)->where('user_id', $request->user()->id)->first();
+        $user = $request->user();
+        if ($user->tokenCan('user:update') or $user->tokenCan('admin:update') ) {
+            $antes = posts::where('id', $request->id)->where('user_id', $user->id)->first();
             if ($antes) {
                 DB::table('posts') ->where('id', $request->id)
                                     ->update(['titulo' => $request->titulo, 
                                     'descripcion' => $request->descripcion]);
                 $despues = posts::where('id', $request->id)->first();
                 if ($despues) {
-                    return response()->json(["Editaste tu post de:"=>$antes,"a:"=>$despues ]);
+                    return response()->json(["Editaste tu post de:"=>$antes,"a:"=>$despues], 201);
                 }
             }
-            return abort(400, "Error al editar post seleccione un post suyo");
+            $data = array (
+                'name' => $user->name, 
+                'email' => $user->email, 
+                'permiso' => 'de editarlo',
+                'razón' => 'editar un post que no es suyo',
+            );
+
+            Mail::send('emails.sinpermiso', $data, function ($message) use ($data) {
+                $message->from('19170089@uttcampus.edu.mx', 'Ariana Esquivel');
+                $message->to('19170089@uttcampus.edu.mx', 'Administrador')->
+                subject('Aviso');
+            });
+            return response()->json("Error al editar post seleccione un post suyo", 400);
         }
-        return abort(401, "No tienes autorización para editar posts");
+        else {
+            $data = array (
+                'name' => $user->name, 
+                'email' => $user->email, 
+                'permiso' => 'admin:update o user:update',
+                'razón' => 'actualizar posts',
+            );
+
+            Mail::send('emails.sinpermiso', $data, function ($message) use ($data) {
+                $message->from('19170089@uttcampus.edu.mx', 'Ariana Esquivel');
+                $message->to('19170089@uttcampus.edu.mx', 'Administrador')->
+                subject('Aviso');
+            });
+            return response()->json("No tienes permiso de actualizar posts", 401);
+        }
     }
 
     /**
@@ -155,7 +201,8 @@ class PostsController extends Controller
      */
     public function destroy(Request $request)
     {
-        if ($request->user()->tokenCan('admin:delete')) {
+        $user = $request->user();
+        if ($user->tokenCan('admin:delete')) {
             $eliminado = posts::where('id', $request->id)->first();
             if ($eliminado) {
                 DB::table('comentarios')->where('post_id', '=', $request->id)->delete();
@@ -170,7 +217,11 @@ class PostsController extends Controller
                 return response()->json("No se eliminó ningún post, verifica que el post exista");
             }
         }
-        else if ($request->user()->tokenCan('user:delete')) {
+        else if ($user->tokenCan('user:delete')) {
+            $post = posts::where('id', $request->id)->first();
+            if (!$post){
+                return response()->json("Este post no existe");
+            }
             $eliminado = posts::where('id', $request->id)->where('user_id', $request->user()->id)->first();
             if ($eliminado) {
                 if ($eliminado->imagen)
@@ -182,8 +233,35 @@ class PostsController extends Controller
                 return response()->json(["Eliminaste tu post:"=>$eliminado]);
             }
             else {
-                return response()->json("No se eliminó ningún post, verifica que el post exista y sea tuyo");
+                $data = array (
+                    'name' => $user->name, 
+                    'email' => $user->email, 
+                    'permiso' => 'de eliminarlo',
+                    'razón' => 'eliminar un post que no le pertenece',
+                );
+    
+                Mail::send('emails.sinpermiso', $data, function ($message) use ($data) {
+                    $message->from('19170089@uttcampus.edu.mx', 'Ariana Esquivel');
+                    $message->to('19170089@uttcampus.edu.mx', 'Administrador')->
+                    subject('Aviso');
+                });
+                return response()->json("Lo sentimos, pero este post no te pertenece", 401);
             }
+        }
+        else {
+            $data = array (
+                'name' => $user->name, 
+                'email' => $user->email, 
+                'permiso' => 'admin:delete o user:delete',
+                'razón' => 'eliminar posts',
+            );
+
+            Mail::send('emails.sinpermiso', $data, function ($message) use ($data) {
+                $message->from('19170089@uttcampus.edu.mx', 'Ariana Esquivel');
+                $message->to('19170089@uttcampus.edu.mx', 'Administrador')->
+                subject('Aviso');
+            });
+            return response()->json("No tienes permiso de actualizar posts", 401);
         }
     }
 

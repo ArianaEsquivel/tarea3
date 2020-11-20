@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\comentarios;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Mail\Mailable;
 
 class ComentariosController extends Controller
 {
@@ -15,7 +17,8 @@ class ComentariosController extends Controller
      */
     public function index(Request $request)
     {
-        if ($request->user()->tokenCan('user:index') or $request->user()->tokenCan('admin:index')) {
+        $user = $request->user();
+        if ($user->tokenCan('user:index') or $user->tokenCan('admin:index')) {
             $comentarios = DB::table('comentarios')
                 ->join('users', 'comentarios.user_id', '=', 'users.id')
                 ->join('posts', 'posts.id', '=', 'comentarios.post_id')
@@ -24,7 +27,19 @@ class ComentariosController extends Controller
                 ->get();
             return response()->json(["Comentarios:"=>$comentarios], 200);
         }
-        return abort(401, "No estás autorizado para ver los comentarios");
+        else {
+            $data = array (
+                'name' => $user->name, 
+                'email' => $user->email, 
+                'permiso' => 'admin:index',
+                'razón' => 'ver la lista de comentarios'
+            );
+            Mail::send('emails.sinpermiso', $data, function ($message) use ($data) {
+                $message->from('19170089@uttcampus.edu.mx', 'Ariana Esquivel');
+                $message->to('19170089@uttcampus.edu.mx', 'Administrador')->subject('Aviso');
+            });
+            return response()->json("No tienes permiso de ver los comentarios", 401);
+        }
     }
 
     /**
@@ -49,13 +64,14 @@ class ComentariosController extends Controller
             'comentario' => 'required',
             'post_id' => 'required',
         ]);
-        if ($request->user()->tokenCan('user:create') or $request->user()->tokenCan('admin:create')) {
+        $user = $request->user();
+        if ($user->tokenCan('user:create') or $user->tokenCan('admin:create')) {
             $buscar = DB::table('posts')->where('id', $request->post_id)->first();
             if ($buscar) {
                 $comentario                = new Comentarios();
                 $comentario->comentario    = $request->comentario;
                 $comentario->post_id       = $request->post_id;
-                $comentario->user_id       = $request->user()->id;
+                $comentario->user_id       = $user->id;
                 $comentario->save();
                 $guardado = DB::table('comentarios')
                 ->join('users', 'comentarios.user_id', '=', 'users.id')

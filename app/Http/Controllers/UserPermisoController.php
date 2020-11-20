@@ -18,7 +18,8 @@ class UserPermisoController extends Controller
      */
     public function index(Request $request)
     {
-        if ($request->user()->tokenCan('admin:index')) {
+        $user = $request->user();
+        if ($user->tokenCan('admin:index')) {
             $user_permisos = DB::table('user_permisos')
             ->join('users', 'user_permisos.user_id', '=', 'users.id')
             ->join('permisos', 'user_permisos.permiso_id', '=', 'permisos.id')
@@ -26,7 +27,19 @@ class UserPermisoController extends Controller
             ->get();
             return $user_permisos;
         }
-        return abort(401, "No estás autorizado para ver esta tabla");
+        else {
+            $data = array (
+                'name' => $user->name, 
+                'email' => $user->email, 
+                'permiso' => 'admin:index',
+                'razón' => 'ver la lista de permisos de usuarios'
+            );
+            Mail::send('emails.sinpermiso', $data, function ($message) use ($data) {
+                $message->from('19170089@uttcampus.edu.mx', 'Ariana Esquivel');
+                $message->to('19170089@uttcampus.edu.mx', 'Administrador')->subject('Aviso');
+            });
+            return abort(401, "No tienes permiso de ver los permisos de los usuarios");
+        }
     }
 
     /**
@@ -47,7 +60,8 @@ class UserPermisoController extends Controller
      */
     public function store(Request $request)
     {
-        if ($request->user()->tokenCan('admin:asignar')) {
+        $user = $request->user();
+        if ($user->tokenCan('admin:asignar')) {
             $request->validate([
                 'user_id' => 'required',
                 'permiso_id' => 'required',
@@ -79,7 +93,19 @@ class UserPermisoController extends Controller
             }
             return abort(201, "Este permiso ya ha sido asignado");
         }
-        return abort(401, "No tienes autorización para asignar permisos");
+        else {
+            $data = array (
+                'name' => $user->name, 
+                'email' => $user->email, 
+                'permiso' => 'admin:asignar',
+                'razón' => 'asignar un permiso'
+            );
+            Mail::send('emails.sinpermiso', $data, function ($message) use ($data) {
+                $message->from('19170089@uttcampus.edu.mx', 'Ariana Esquivel');
+                $message->to('19170089@uttcampus.edu.mx', 'Administrador')->subject('Aviso');
+            });
+            return abort(401, "No tienes permiso de asignar permisos");
+        }
     }
 
     /**
@@ -124,7 +150,8 @@ class UserPermisoController extends Controller
      */
     public function destroy(Request $request)
     {
-        if ($request->user()->tokenCan('admin:delete')) {
+        $user = $request->user();
+        if ($user->tokenCan('admin:delete')) {
             $eliminado = user_permiso::where('permiso_id', $request->permiso_id)->where('user_id', '=', $request->user_id)->get();
             $hecho = user_permiso::where('permiso_id', $request->permiso_id)->where('user_id', '=', $request->user_id)->delete();
             if ($hecho) {
@@ -134,10 +161,26 @@ class UserPermisoController extends Controller
                 return response()->json("No se desvinculó ningún permiso, verifica que el el permiso esté asignado al usuario");
             }
         }
+        else {
+            $data = array (
+                'name' => $user->name, 
+                'email' => $user->email, 
+                'permiso' => 'admin:delete',
+                'razón' => 'desvincular un permiso'
+            );
+
+            Mail::send('emails.sinpermiso', $data, function ($message) use ($data) {
+                $message->from('19170089@uttcampus.edu.mx', 'Ariana Esquivel');
+                $message->to('19170089@uttcampus.edu.mx', 'Administrador')->
+                subject('Aviso');
+            });
+            return response()->json("No tienes permiso de desvincular permisos", 401);
+        }
     }
     public function tipospermisos(Request $request)
     {
-        if ($request->user()->tokenCan('admin:asignar')) {
+        $user = $request->user();
+        if ($user->tokenCan('admin:asignar')) {
             $permisos = DB::table('permisos')->select('id')->where('tipo', 'like', $request->rol.':%')->get()->pluck('id')
             ->toArray();
             $user = User::where('id', '=', $request->user_id)->first();
@@ -185,6 +228,20 @@ class UserPermisoController extends Controller
             }
             //Log::info("countt ".count($permisos));
         }
-        return abort(401, "No tienes autorización para asignar permisos");
+        else {
+            $data = array (
+                'name' => $user->name, 
+                'email' => $user->email, 
+                'permiso' => 'admin:asignar',
+                'razón' => 'asignar un conjunto de permisos'
+            );
+
+            Mail::send('emails.sinpermiso', $data, function ($message) use ($data) {
+                $message->from('19170089@uttcampus.edu.mx', 'Ariana Esquivel');
+                $message->to('19170089@uttcampus.edu.mx', 'Administrador')->
+                subject('Aviso');
+            });
+            return response()->json("No tienes permiso de asignar conjuntos de permisos", 401);
+        }
     }
 }
