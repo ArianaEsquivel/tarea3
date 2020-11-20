@@ -5,6 +5,8 @@ use App\User;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
+use Illuminate\Support\Str;
+use Carbon\Carbon;
 
 class UsersSeeder extends Seeder
 {
@@ -23,7 +25,10 @@ class UsersSeeder extends Seeder
                 'name' => 'Administrador',
                 'age' => 20,
                 'email' => 'admin@gmail.com',
-                'password' => Hash::make('123456')]);
+                'password' => Hash::make('123456'),
+                'codigo' => Str::random(25),
+                'email_verified_at' => Carbon::now()
+                ]);
         }
     }
 }

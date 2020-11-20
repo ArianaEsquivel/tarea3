@@ -9,6 +9,11 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\File;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Mail\Mailable;
+use Carbon\Carbon;
+use Illuminate\Support\Str;
+use App\user_permiso;
 use Log;
 
 class UserController extends Controller
@@ -85,7 +90,6 @@ class UserController extends Controller
     {
         if ($request->user()->tokenCan('admin:update')) {
             $antes = user::where('id', $request->id)->first();
-
             DB::table('users') ->where('id', $request->id)
                             ->update(['name' => $request->name, 
                             'age' => $request->age, 
@@ -125,14 +129,15 @@ class UserController extends Controller
     {
         if ($request->user()->tokenCan('admin:delete')) {
             $eliminado = User::where('id', '=', $request->id)->first();
-            DB::table('user_permisos')->where('user_id', '=', $request->id)->delete();
-            DB::table('comentarios')->where('user_id', '=', $request->id)->delete();
-            DB::table('posts')->where('user_id', '=', $request->id)->delete();
-            DB::table('users')->where('id', '=', $request->id)->delete();
             if ($eliminado) {
+                $eliminado->tokens()->delete();
+                DB::table('user_permisos')->where('user_id', '=', $request->id)->delete();
+                DB::table('comentarios')->where('user_id', '=', $request->id)->delete();
+                DB::table('posts')->where('user_id', '=', $request->id)->delete();
+                DB::table('users')->where('id', '=', $request->id)->delete();
                 if ($eliminado->foto)
                 {
-                    //Log::info($eliminado->foto);
+                    Log::info($eliminado->foto);
                     Storage::delete('public/'.$eliminado->foto);
                 }
                 return response()->json(["Se eliminó el usuario:"=>$eliminado]);
@@ -143,14 +148,14 @@ class UserController extends Controller
         }
         else if ($request->user()->tokenCan('user:delete')) {
             $eliminado = user::where('id', $request->user()->id)->first();
-            DB::table('user_permisos')->where('user_id', '=', $request->user()->id)->delete();
-            DB::table('comentarios')->where('user_id', '=', $request->user()->id)->delete();
-            DB::table('posts')->where('user_id', '=', $request->user()->id)->delete();
-            DB::table('users')->where('id', '=', $request->user()->id)->delete();
             if ($eliminado) {
+                $request->user()->tokens()->delete();
+                DB::table('user_permisos')->where('user_id', '=', $request->user()->id)->delete();
+                DB::table('comentarios')->where('user_id', '=', $request->user()->id)->delete();
+                DB::table('posts')->where('user_id', '=', $request->user()->id)->delete();
+                DB::table('users')->where('id', '=', $request->user()->id)->delete();
                 if ($eliminado->foto)
                 {
-                    Log::info($eliminado->foto);
                     Storage::delete('public/'.$eliminado->foto);
                 }
                 return response()->json(["Eliminaste tu usuario:"=>$eliminado]);
@@ -190,7 +195,7 @@ class UserController extends Controller
     {
         return response()->json(["Afectados" => $request->user()->tokens()->delete()], 200);   
     }
-
+    public $data;
     public function registro(Request $request)
     {
         $request->validate([
@@ -198,15 +203,17 @@ class UserController extends Controller
             'email' => 'required|email',
             'password' => 'required',
         ]);
-
+        if (User::where('email', '=', $request->email)->first())
+        {
+            return abort(400, "Este correo ya está siendo ocupado");
+        }
         $user              = new User();
         $user->name        = $request->name;
         $user->age         = $request->age;
         $user->email       = $request->email;
         $user->password    = Hash::make($request->password);
-        
+        $user->codigo      = Str::random(25);
         if ($request->hasFile('foto')) {
-            //$path = Storage::disk('public')->putFile('fotos_usuarios/', $request->foto);
             switch($request->foto->extension()){
                 case "jpeg":
                     $path = Storage::disk('public')->putFile('fotos_usuarios', $request->foto);
@@ -226,12 +233,21 @@ class UserController extends Controller
             }
             $user->foto       = $path;
         }
-        if ($user->save())
-            return response()->json($user, 201);
-        
+    
+        if ($user->save()){
+            $data = array (
+                'name' => $user->name, 
+                'email' => $user->email, 
+                'codigo' => $user->codigo
+            );
+            Mail::send('emails.confirmarcorreo', $data, function ($message) use ($data) {
+                $message->from('19170089@uttcampus.edu.mx', 'Ariana Esquivel');
+                $message->to($data['email'], $data['name'])->subject('Confirmar cuenta');
+            });
+            return response()->json(["Se registró el usuario, verifique su correo para confirmar" => $user], 201);
+        }
         return abort(400, "Error al registrar usuario");
     }
-
     public function borrarfoto(Request $request)
     {
         if ($request->user()->tokenCan('admin:delete')) {
@@ -265,7 +281,6 @@ class UserController extends Controller
     {
         if ($request->user()->tokenCan('admin:update')) {
             $antes = user::select('name', 'foto')->where('id', $request->id)->first();
-            Log::info("id:".$request->id);
             if (!$antes)
             {
                 return abort(400, "Verifica que el id sea existentes");
@@ -334,9 +349,39 @@ class UserController extends Controller
         return abort(401, "No tienes autorización para cambiar fotos");
     }
 
-    public function cuenta()
+    public function verificarcuenta($codigo)
     {
-        return User::all();
+        $user = User::where('codigo', $codigo)->first();
+        if($user)
+        {
+            $permisos = DB::table('permisos')->select('id')->where('tipo', 'like', 'user'.':%')->get()->pluck('id')
+            ->toArray();
+            Log::info(["permisos"=>$permisos]);
+            for($i = 0; $i < count($permisos); $i++)
+            {
+                $userpermiso = DB::table('user_permisos')
+                ->join('users', 'user_permisos.user_id', '=', 'users.id')
+                ->join('permisos', 'user_permisos.permiso_id', '=', 'permisos.id')
+                ->select('permisos.id')
+                ->where('permisos.id', '=', $permisos[$i])
+                ->where('users.id', '=', $user->id)
+                ->first();
+
+                if (!$userpermiso)
+                {
+                    $id_permi = $permisos[$i];
+                    $user_permiso                 = new User_Permiso();
+                    $user_permiso->user_id        = $user->id;
+                    $user_permiso->permiso_id     = $id_permi;
+                    $hecho = $user_permiso->save();
+                }
+            }
+            $user->email_verified_at = Carbon::now();
+            if ($user->save()){
+                return response()->json(["Felicidades, su cuenta ha sido verificada" => $user], 200);
+            }
+        }
+        return response()->json(["Algo ha salido mal, tal vez tu codigo caducó" => $user], 400);
     }
 
 }

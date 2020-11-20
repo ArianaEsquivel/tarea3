@@ -82,6 +82,8 @@ Route::middleware('auth:sanctum')->post('comentarios', 'ComentariosController@st
 Route::middleware('auth:sanctum')->put('comentarios', 'ComentariosController@update');
 Route::middleware('auth:sanctum')->delete('comentarios', 'ComentariosController@destroy');
 
+//DESDE AQUÍ COMIENZA LA PRÁCTICA 3//
+
 //FOTOS
 Route::middleware('auth:sanctum')->delete('borrarfoto', 'UserController@borrarfoto');
 Route::middleware('auth:sanctum')->post('cambiarfoto', 'UserController@cambiarfoto');
@@ -90,3 +92,5 @@ Route::middleware('auth:sanctum')->post('cambiarfoto', 'UserController@cambiarfo
 Route::middleware('auth:sanctum')->delete('borrarimagen', 'PostsController@borrarimagen');
 Route::middleware('auth:sanctum')->post('cambiarimagen', 'PostsController@cambiarimagen');
 
+//
+Route::get("verificarcuenta/{codigo}", "UserController@verificarcuenta");

@@ -1,186 +1,199 @@
-[2020-11-19 19:03:09] local.ERROR: Undefined variable: id {"userId":1,"exception":"[object] (ErrorException(code: 0): Undefined variable: id at /Users/arianaesquivel/Sites/practica_3/app/Http/Controllers/UserController.php:268)
+[2020-11-20 06:24:33] local.INFO: array (
+  'permisos' => 
+  array (
+  ),
+)  
+[2020-11-20 06:26:10] local.INFO: array (
+  'permisos' => 
+  array (
+    0 => 7,
+    1 => 9,
+    2 => 6,
+    3 => 8,
+  ),
+)  
+[2020-11-20 06:26:10] local.ERROR: Class 'App\Http\Controllers\User_Permiso' not found {"exception":"[object] (Error(code: 0): Class 'App\\Http\\Controllers\\User_Permiso' not found at /Users/arianaesquivel/Sites/practica_3/app/Http/Controllers/UserController.php:372)
 [stacktrace]
-#0 /Users/arianaesquivel/Sites/practica_3/app/Http/Controllers/UserController.php(268): Illuminate\\Foundation\\Bootstrap\\HandleExceptions->handleError(8, 'Undefined varia...', '/Users/arianaes...', 268, Array)
-#1 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Routing/Controller.php(54): App\\Http\\Controllers\\UserController->cambiarfoto(Object(Illuminate\\Http\\Request))
-#2 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Routing/ControllerDispatcher.php(45): Illuminate\\Routing\\Controller->callAction('cambiarfoto', Array)
-#3 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Routing/Route.php(239): Illuminate\\Routing\\ControllerDispatcher->dispatch(Object(Illuminate\\Routing\\Route), Object(App\\Http\\Controllers\\UserController), 'cambiarfoto')
-#4 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Routing/Route.php(196): Illuminate\\Routing\\Route->runController()
-#5 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Routing/Router.php(685): Illuminate\\Routing\\Route->run()
-#6 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(128): Illuminate\\Routing\\Router->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
-#7 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Routing/Middleware/SubstituteBindings.php(41): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
-#8 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(167): Illuminate\\Routing\\Middleware\\SubstituteBindings->handle(Object(Illuminate\\Http\\Request), Object(Closure))
-#9 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Routing/Middleware/ThrottleRequests.php(59): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
-#10 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(167): Illuminate\\Routing\\Middleware\\ThrottleRequests->handle(Object(Illuminate\\Http\\Request), Object(Closure), 60, '1')
-#11 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Auth/Middleware/Authenticate.php(44): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
-#12 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(167): Illuminate\\Auth\\Middleware\\Authenticate->handle(Object(Illuminate\\Http\\Request), Object(Closure), 'sanctum')
-#13 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(103): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
-#14 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Routing/Router.php(687): Illuminate\\Pipeline\\Pipeline->then(Object(Closure))
-#15 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Routing/Router.php(662): Illuminate\\Routing\\Router->runRouteWithinStack(Object(Illuminate\\Routing\\Route), Object(Illuminate\\Http\\Request))
-#16 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Routing/Router.php(628): Illuminate\\Routing\\Router->runRoute(Object(Illuminate\\Http\\Request), Object(Illuminate\\Routing\\Route))
-#17 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Routing/Router.php(617): Illuminate\\Routing\\Router->dispatchToRoute(Object(Illuminate\\Http\\Request))
-#18 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(165): Illuminate\\Routing\\Router->dispatch(Object(Illuminate\\Http\\Request))
-#19 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(128): Illuminate\\Foundation\\Http\\Kernel->Illuminate\\Foundation\\Http\\{closure}(Object(Illuminate\\Http\\Request))
-#20 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TransformsRequest.php(21): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
-#21 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(167): Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest->handle(Object(Illuminate\\Http\\Request), Object(Closure))
-#22 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TransformsRequest.php(21): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
-#23 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(167): Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest->handle(Object(Illuminate\\Http\\Request), Object(Closure))
-#24 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/ValidatePostSize.php(27): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
-#25 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(167): Illuminate\\Foundation\\Http\\Middleware\\ValidatePostSize->handle(Object(Illuminate\\Http\\Request), Object(Closure))
-#26 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/CheckForMaintenanceMode.php(63): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
-#27 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(167): Illuminate\\Foundation\\Http\\Middleware\\CheckForMaintenanceMode->handle(Object(Illuminate\\Http\\Request), Object(Closure))
-#28 /Users/arianaesquivel/Sites/practica_3/vendor/fruitcake/laravel-cors/src/HandleCors.php(57): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
-#29 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(167): Fruitcake\\Cors\\HandleCors->handle(Object(Illuminate\\Http\\Request), Object(Closure))
-#30 /Users/arianaesquivel/Sites/practica_3/vendor/fideloper/proxy/src/TrustProxies.php(57): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
-#31 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(167): Fideloper\\Proxy\\TrustProxies->handle(Object(Illuminate\\Http\\Request), Object(Closure))
-#32 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(103): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
-#33 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(140): Illuminate\\Pipeline\\Pipeline->then(Object(Closure))
-#34 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(109): Illuminate\\Foundation\\Http\\Kernel->sendRequestThroughRouter(Object(Illuminate\\Http\\Request))
-#35 /Users/arianaesquivel/Sites/practica_3/public/index.php(55): Illuminate\\Foundation\\Http\\Kernel->handle(Object(Illuminate\\Http\\Request))
-#36 /Users/arianaesquivel/Sites/practica_3/server.php(21): require_once('/Users/arianaes...')
-#37 {main}
+#0 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Routing/Controller.php(54): App\\Http\\Controllers\\UserController->verificarcuenta('IBKnX8FczlzKqK9...')
+#1 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Routing/ControllerDispatcher.php(45): Illuminate\\Routing\\Controller->callAction('verificarcuenta', Array)
+#2 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Routing/Route.php(239): Illuminate\\Routing\\ControllerDispatcher->dispatch(Object(Illuminate\\Routing\\Route), Object(App\\Http\\Controllers\\UserController), 'verificarcuenta')
+#3 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Routing/Route.php(196): Illuminate\\Routing\\Route->runController()
+#4 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Routing/Router.php(685): Illuminate\\Routing\\Route->run()
+#5 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(128): Illuminate\\Routing\\Router->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#6 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Routing/Middleware/SubstituteBindings.php(41): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#7 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(167): Illuminate\\Routing\\Middleware\\SubstituteBindings->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#8 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Routing/Middleware/ThrottleRequests.php(59): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#9 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(167): Illuminate\\Routing\\Middleware\\ThrottleRequests->handle(Object(Illuminate\\Http\\Request), Object(Closure), 60, '1')
+#10 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(103): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#11 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Routing/Router.php(687): Illuminate\\Pipeline\\Pipeline->then(Object(Closure))
+#12 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Routing/Router.php(662): Illuminate\\Routing\\Router->runRouteWithinStack(Object(Illuminate\\Routing\\Route), Object(Illuminate\\Http\\Request))
+#13 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Routing/Router.php(628): Illuminate\\Routing\\Router->runRoute(Object(Illuminate\\Http\\Request), Object(Illuminate\\Routing\\Route))
+#14 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Routing/Router.php(617): Illuminate\\Routing\\Router->dispatchToRoute(Object(Illuminate\\Http\\Request))
+#15 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(165): Illuminate\\Routing\\Router->dispatch(Object(Illuminate\\Http\\Request))
+#16 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(128): Illuminate\\Foundation\\Http\\Kernel->Illuminate\\Foundation\\Http\\{closure}(Object(Illuminate\\Http\\Request))
+#17 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TransformsRequest.php(21): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#18 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(167): Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#19 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TransformsRequest.php(21): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#20 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(167): Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#21 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/ValidatePostSize.php(27): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#22 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(167): Illuminate\\Foundation\\Http\\Middleware\\ValidatePostSize->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#23 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/CheckForMaintenanceMode.php(63): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#24 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(167): Illuminate\\Foundation\\Http\\Middleware\\CheckForMaintenanceMode->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#25 /Users/arianaesquivel/Sites/practica_3/vendor/fruitcake/laravel-cors/src/HandleCors.php(57): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#26 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(167): Fruitcake\\Cors\\HandleCors->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#27 /Users/arianaesquivel/Sites/practica_3/vendor/fideloper/proxy/src/TrustProxies.php(57): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#28 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(167): Fideloper\\Proxy\\TrustProxies->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#29 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(103): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#30 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(140): Illuminate\\Pipeline\\Pipeline->then(Object(Closure))
+#31 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(109): Illuminate\\Foundation\\Http\\Kernel->sendRequestThroughRouter(Object(Illuminate\\Http\\Request))
+#32 /Users/arianaesquivel/Sites/practica_3/public/index.php(55): Illuminate\\Foundation\\Http\\Kernel->handle(Object(Illuminate\\Http\\Request))
+#33 /Users/arianaesquivel/Sites/practica_3/server.php(21): require_once('/Users/arianaes...')
+#34 {main}
 "} 
-[2020-11-19 19:03:29] local.INFO: id1  
-[2020-11-19 19:03:29] local.ERROR: The HTTP status code "2001" is not valid. {"userId":1,"exception":"[object] (InvalidArgumentException(code: 0): The HTTP status code \"2001\" is not valid. at /Users/arianaesquivel/Sites/practica_3/vendor/symfony/http-foundation/Response.php:469)
+[2020-11-20 06:26:50] local.INFO: array (
+  'permisos' => 
+  array (
+    0 => 7,
+    1 => 9,
+    2 => 6,
+    3 => 8,
+  ),
+)  
+[2020-11-20 06:27:18] local.INFO: array (
+  'permisos' => 
+  array (
+    0 => 7,
+    1 => 9,
+    2 => 6,
+    3 => 8,
+  ),
+)  
+[2020-11-20 06:27:19] local.INFO: array (
+  'permisos' => 
+  array (
+    0 => 7,
+    1 => 9,
+    2 => 6,
+    3 => 8,
+  ),
+)  
+[2020-11-20 06:36:51] local.INFO: array (
+  'permisos' => 
+  array (
+    0 => 7,
+    1 => 9,
+    2 => 6,
+    3 => 8,
+  ),
+)  
+[2020-11-20 06:37:12] local.ERROR: Route [login] not defined. {"exception":"[object] (Symfony\\Component\\Routing\\Exception\\RouteNotFoundException(code: 0): Route [login] not defined. at /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Routing/UrlGenerator.php:420)
 [stacktrace]
-#0 /Users/arianaesquivel/Sites/practica_3/vendor/symfony/http-foundation/Response.php(219): Symfony\\Component\\HttpFoundation\\Response->setStatusCode(2001)
-#1 /Users/arianaesquivel/Sites/practica_3/vendor/symfony/http-foundation/JsonResponse.php(44): Symfony\\Component\\HttpFoundation\\Response->__construct('', 2001, Array)
-#2 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Http/JsonResponse.php(31): Symfony\\Component\\HttpFoundation\\JsonResponse->__construct(Array, 2001, Array)
-#3 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Routing/ResponseFactory.php(99): Illuminate\\Http\\JsonResponse->__construct(Array, 2001, Array, 0)
-#4 /Users/arianaesquivel/Sites/practica_3/app/Http/Controllers/UserController.php(297): Illuminate\\Routing\\ResponseFactory->json(Array, 2001)
-#5 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Routing/Controller.php(54): App\\Http\\Controllers\\UserController->cambiarfoto(Object(Illuminate\\Http\\Request))
-#6 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Routing/ControllerDispatcher.php(45): Illuminate\\Routing\\Controller->callAction('cambiarfoto', Array)
-#7 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Routing/Route.php(239): Illuminate\\Routing\\ControllerDispatcher->dispatch(Object(Illuminate\\Routing\\Route), Object(App\\Http\\Controllers\\UserController), 'cambiarfoto')
-#8 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Routing/Route.php(196): Illuminate\\Routing\\Route->runController()
-#9 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Routing/Router.php(685): Illuminate\\Routing\\Route->run()
-#10 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(128): Illuminate\\Routing\\Router->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
-#11 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Routing/Middleware/SubstituteBindings.php(41): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
-#12 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(167): Illuminate\\Routing\\Middleware\\SubstituteBindings->handle(Object(Illuminate\\Http\\Request), Object(Closure))
-#13 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Routing/Middleware/ThrottleRequests.php(59): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
-#14 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(167): Illuminate\\Routing\\Middleware\\ThrottleRequests->handle(Object(Illuminate\\Http\\Request), Object(Closure), 60, '1')
-#15 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Auth/Middleware/Authenticate.php(44): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
-#16 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(167): Illuminate\\Auth\\Middleware\\Authenticate->handle(Object(Illuminate\\Http\\Request), Object(Closure), 'sanctum')
-#17 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(103): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
-#18 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Routing/Router.php(687): Illuminate\\Pipeline\\Pipeline->then(Object(Closure))
-#19 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Routing/Router.php(662): Illuminate\\Routing\\Router->runRouteWithinStack(Object(Illuminate\\Routing\\Route), Object(Illuminate\\Http\\Request))
-#20 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Routing/Router.php(628): Illuminate\\Routing\\Router->runRoute(Object(Illuminate\\Http\\Request), Object(Illuminate\\Routing\\Route))
-#21 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Routing/Router.php(617): Illuminate\\Routing\\Router->dispatchToRoute(Object(Illuminate\\Http\\Request))
-#22 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(165): Illuminate\\Routing\\Router->dispatch(Object(Illuminate\\Http\\Request))
-#23 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(128): Illuminate\\Foundation\\Http\\Kernel->Illuminate\\Foundation\\Http\\{closure}(Object(Illuminate\\Http\\Request))
-#24 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TransformsRequest.php(21): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
-#25 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(167): Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest->handle(Object(Illuminate\\Http\\Request), Object(Closure))
-#26 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TransformsRequest.php(21): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
-#27 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(167): Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest->handle(Object(Illuminate\\Http\\Request), Object(Closure))
-#28 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/ValidatePostSize.php(27): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
-#29 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(167): Illuminate\\Foundation\\Http\\Middleware\\ValidatePostSize->handle(Object(Illuminate\\Http\\Request), Object(Closure))
-#30 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/CheckForMaintenanceMode.php(63): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
-#31 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(167): Illuminate\\Foundation\\Http\\Middleware\\CheckForMaintenanceMode->handle(Object(Illuminate\\Http\\Request), Object(Closure))
-#32 /Users/arianaesquivel/Sites/practica_3/vendor/fruitcake/laravel-cors/src/HandleCors.php(57): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
-#33 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(167): Fruitcake\\Cors\\HandleCors->handle(Object(Illuminate\\Http\\Request), Object(Closure))
-#34 /Users/arianaesquivel/Sites/practica_3/vendor/fideloper/proxy/src/TrustProxies.php(57): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
-#35 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(167): Fideloper\\Proxy\\TrustProxies->handle(Object(Illuminate\\Http\\Request), Object(Closure))
-#36 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(103): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
-#37 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(140): Illuminate\\Pipeline\\Pipeline->then(Object(Closure))
-#38 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(109): Illuminate\\Foundation\\Http\\Kernel->sendRequestThroughRouter(Object(Illuminate\\Http\\Request))
-#39 /Users/arianaesquivel/Sites/practica_3/public/index.php(55): Illuminate\\Foundation\\Http\\Kernel->handle(Object(Illuminate\\Http\\Request))
-#40 /Users/arianaesquivel/Sites/practica_3/server.php(21): require_once('/Users/arianaes...')
-#41 {main}
+#0 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Foundation/helpers.php(768): Illuminate\\Routing\\UrlGenerator->route('login', Array, true)
+#1 /Users/arianaesquivel/Sites/practica_3/app/Http/Middleware/Authenticate.php(18): route('login')
+#2 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Auth/Middleware/Authenticate.php(83): App\\Http\\Middleware\\Authenticate->redirectTo(Object(Illuminate\\Http\\Request))
+#3 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Auth/Middleware/Authenticate.php(68): Illuminate\\Auth\\Middleware\\Authenticate->unauthenticated(Object(Illuminate\\Http\\Request), Array)
+#4 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Auth/Middleware/Authenticate.php(42): Illuminate\\Auth\\Middleware\\Authenticate->authenticate(Object(Illuminate\\Http\\Request), Array)
+#5 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(167): Illuminate\\Auth\\Middleware\\Authenticate->handle(Object(Illuminate\\Http\\Request), Object(Closure), 'sanctum')
+#6 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(103): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#7 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Routing/Router.php(687): Illuminate\\Pipeline\\Pipeline->then(Object(Closure))
+#8 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Routing/Router.php(662): Illuminate\\Routing\\Router->runRouteWithinStack(Object(Illuminate\\Routing\\Route), Object(Illuminate\\Http\\Request))
+#9 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Routing/Router.php(628): Illuminate\\Routing\\Router->runRoute(Object(Illuminate\\Http\\Request), Object(Illuminate\\Routing\\Route))
+#10 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Routing/Router.php(617): Illuminate\\Routing\\Router->dispatchToRoute(Object(Illuminate\\Http\\Request))
+#11 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(165): Illuminate\\Routing\\Router->dispatch(Object(Illuminate\\Http\\Request))
+#12 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(128): Illuminate\\Foundation\\Http\\Kernel->Illuminate\\Foundation\\Http\\{closure}(Object(Illuminate\\Http\\Request))
+#13 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TransformsRequest.php(21): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#14 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(167): Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#15 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TransformsRequest.php(21): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#16 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(167): Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#17 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/ValidatePostSize.php(27): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#18 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(167): Illuminate\\Foundation\\Http\\Middleware\\ValidatePostSize->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#19 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/CheckForMaintenanceMode.php(63): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#20 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(167): Illuminate\\Foundation\\Http\\Middleware\\CheckForMaintenanceMode->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#21 /Users/arianaesquivel/Sites/practica_3/vendor/fruitcake/laravel-cors/src/HandleCors.php(57): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#22 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(167): Fruitcake\\Cors\\HandleCors->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#23 /Users/arianaesquivel/Sites/practica_3/vendor/fideloper/proxy/src/TrustProxies.php(57): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#24 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(167): Fideloper\\Proxy\\TrustProxies->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#25 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(103): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#26 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(140): Illuminate\\Pipeline\\Pipeline->then(Object(Closure))
+#27 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(109): Illuminate\\Foundation\\Http\\Kernel->sendRequestThroughRouter(Object(Illuminate\\Http\\Request))
+#28 /Users/arianaesquivel/Sites/practica_3/public/index.php(55): Illuminate\\Foundation\\Http\\Kernel->handle(Object(Illuminate\\Http\\Request))
+#29 /Users/arianaesquivel/Sites/practica_3/server.php(21): require_once('/Users/arianaes...')
+#30 {main}
 "} 
-[2020-11-19 19:03:51] local.INFO: id:12  
-[2020-11-19 19:03:55] local.INFO: id:1  
-[2020-11-19 19:03:55] local.ERROR: The HTTP status code "2001" is not valid. {"userId":1,"exception":"[object] (InvalidArgumentException(code: 0): The HTTP status code \"2001\" is not valid. at /Users/arianaesquivel/Sites/practica_3/vendor/symfony/http-foundation/Response.php:469)
+[2020-11-20 06:37:20] local.ERROR: Route [login] not defined. {"exception":"[object] (Symfony\\Component\\Routing\\Exception\\RouteNotFoundException(code: 0): Route [login] not defined. at /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Routing/UrlGenerator.php:420)
 [stacktrace]
-#0 /Users/arianaesquivel/Sites/practica_3/vendor/symfony/http-foundation/Response.php(219): Symfony\\Component\\HttpFoundation\\Response->setStatusCode(2001)
-#1 /Users/arianaesquivel/Sites/practica_3/vendor/symfony/http-foundation/JsonResponse.php(44): Symfony\\Component\\HttpFoundation\\Response->__construct('', 2001, Array)
-#2 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Http/JsonResponse.php(31): Symfony\\Component\\HttpFoundation\\JsonResponse->__construct(Array, 2001, Array)
-#3 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Routing/ResponseFactory.php(99): Illuminate\\Http\\JsonResponse->__construct(Array, 2001, Array, 0)
-#4 /Users/arianaesquivel/Sites/practica_3/app/Http/Controllers/UserController.php(297): Illuminate\\Routing\\ResponseFactory->json(Array, 2001)
-#5 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Routing/Controller.php(54): App\\Http\\Controllers\\UserController->cambiarfoto(Object(Illuminate\\Http\\Request))
-#6 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Routing/ControllerDispatcher.php(45): Illuminate\\Routing\\Controller->callAction('cambiarfoto', Array)
-#7 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Routing/Route.php(239): Illuminate\\Routing\\ControllerDispatcher->dispatch(Object(Illuminate\\Routing\\Route), Object(App\\Http\\Controllers\\UserController), 'cambiarfoto')
-#8 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Routing/Route.php(196): Illuminate\\Routing\\Route->runController()
-#9 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Routing/Router.php(685): Illuminate\\Routing\\Route->run()
-#10 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(128): Illuminate\\Routing\\Router->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
-#11 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Routing/Middleware/SubstituteBindings.php(41): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
-#12 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(167): Illuminate\\Routing\\Middleware\\SubstituteBindings->handle(Object(Illuminate\\Http\\Request), Object(Closure))
-#13 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Routing/Middleware/ThrottleRequests.php(59): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
-#14 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(167): Illuminate\\Routing\\Middleware\\ThrottleRequests->handle(Object(Illuminate\\Http\\Request), Object(Closure), 60, '1')
-#15 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Auth/Middleware/Authenticate.php(44): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
-#16 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(167): Illuminate\\Auth\\Middleware\\Authenticate->handle(Object(Illuminate\\Http\\Request), Object(Closure), 'sanctum')
-#17 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(103): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
-#18 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Routing/Router.php(687): Illuminate\\Pipeline\\Pipeline->then(Object(Closure))
-#19 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Routing/Router.php(662): Illuminate\\Routing\\Router->runRouteWithinStack(Object(Illuminate\\Routing\\Route), Object(Illuminate\\Http\\Request))
-#20 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Routing/Router.php(628): Illuminate\\Routing\\Router->runRoute(Object(Illuminate\\Http\\Request), Object(Illuminate\\Routing\\Route))
-#21 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Routing/Router.php(617): Illuminate\\Routing\\Router->dispatchToRoute(Object(Illuminate\\Http\\Request))
-#22 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(165): Illuminate\\Routing\\Router->dispatch(Object(Illuminate\\Http\\Request))
-#23 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(128): Illuminate\\Foundation\\Http\\Kernel->Illuminate\\Foundation\\Http\\{closure}(Object(Illuminate\\Http\\Request))
-#24 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TransformsRequest.php(21): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
-#25 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(167): Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest->handle(Object(Illuminate\\Http\\Request), Object(Closure))
-#26 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TransformsRequest.php(21): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
-#27 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(167): Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest->handle(Object(Illuminate\\Http\\Request), Object(Closure))
-#28 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/ValidatePostSize.php(27): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
-#29 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(167): Illuminate\\Foundation\\Http\\Middleware\\ValidatePostSize->handle(Object(Illuminate\\Http\\Request), Object(Closure))
-#30 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/CheckForMaintenanceMode.php(63): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
-#31 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(167): Illuminate\\Foundation\\Http\\Middleware\\CheckForMaintenanceMode->handle(Object(Illuminate\\Http\\Request), Object(Closure))
-#32 /Users/arianaesquivel/Sites/practica_3/vendor/fruitcake/laravel-cors/src/HandleCors.php(57): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
-#33 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(167): Fruitcake\\Cors\\HandleCors->handle(Object(Illuminate\\Http\\Request), Object(Closure))
-#34 /Users/arianaesquivel/Sites/practica_3/vendor/fideloper/proxy/src/TrustProxies.php(57): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
-#35 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(167): Fideloper\\Proxy\\TrustProxies->handle(Object(Illuminate\\Http\\Request), Object(Closure))
-#36 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(103): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
-#37 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(140): Illuminate\\Pipeline\\Pipeline->then(Object(Closure))
-#38 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(109): Illuminate\\Foundation\\Http\\Kernel->sendRequestThroughRouter(Object(Illuminate\\Http\\Request))
-#39 /Users/arianaesquivel/Sites/practica_3/public/index.php(55): Illuminate\\Foundation\\Http\\Kernel->handle(Object(Illuminate\\Http\\Request))
-#40 /Users/arianaesquivel/Sites/practica_3/server.php(21): require_once('/Users/arianaes...')
-#41 {main}
+#0 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Foundation/helpers.php(768): Illuminate\\Routing\\UrlGenerator->route('login', Array, true)
+#1 /Users/arianaesquivel/Sites/practica_3/app/Http/Middleware/Authenticate.php(18): route('login')
+#2 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Auth/Middleware/Authenticate.php(83): App\\Http\\Middleware\\Authenticate->redirectTo(Object(Illuminate\\Http\\Request))
+#3 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Auth/Middleware/Authenticate.php(68): Illuminate\\Auth\\Middleware\\Authenticate->unauthenticated(Object(Illuminate\\Http\\Request), Array)
+#4 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Auth/Middleware/Authenticate.php(42): Illuminate\\Auth\\Middleware\\Authenticate->authenticate(Object(Illuminate\\Http\\Request), Array)
+#5 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(167): Illuminate\\Auth\\Middleware\\Authenticate->handle(Object(Illuminate\\Http\\Request), Object(Closure), 'sanctum')
+#6 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(103): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#7 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Routing/Router.php(687): Illuminate\\Pipeline\\Pipeline->then(Object(Closure))
+#8 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Routing/Router.php(662): Illuminate\\Routing\\Router->runRouteWithinStack(Object(Illuminate\\Routing\\Route), Object(Illuminate\\Http\\Request))
+#9 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Routing/Router.php(628): Illuminate\\Routing\\Router->runRoute(Object(Illuminate\\Http\\Request), Object(Illuminate\\Routing\\Route))
+#10 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Routing/Router.php(617): Illuminate\\Routing\\Router->dispatchToRoute(Object(Illuminate\\Http\\Request))
+#11 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(165): Illuminate\\Routing\\Router->dispatch(Object(Illuminate\\Http\\Request))
+#12 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(128): Illuminate\\Foundation\\Http\\Kernel->Illuminate\\Foundation\\Http\\{closure}(Object(Illuminate\\Http\\Request))
+#13 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TransformsRequest.php(21): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#14 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(167): Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#15 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TransformsRequest.php(21): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#16 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(167): Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#17 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/ValidatePostSize.php(27): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#18 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(167): Illuminate\\Foundation\\Http\\Middleware\\ValidatePostSize->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#19 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/CheckForMaintenanceMode.php(63): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#20 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(167): Illuminate\\Foundation\\Http\\Middleware\\CheckForMaintenanceMode->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#21 /Users/arianaesquivel/Sites/practica_3/vendor/fruitcake/laravel-cors/src/HandleCors.php(57): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#22 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(167): Fruitcake\\Cors\\HandleCors->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#23 /Users/arianaesquivel/Sites/practica_3/vendor/fideloper/proxy/src/TrustProxies.php(57): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#24 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(167): Fideloper\\Proxy\\TrustProxies->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#25 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(103): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#26 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(140): Illuminate\\Pipeline\\Pipeline->then(Object(Closure))
+#27 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(109): Illuminate\\Foundation\\Http\\Kernel->sendRequestThroughRouter(Object(Illuminate\\Http\\Request))
+#28 /Users/arianaesquivel/Sites/practica_3/public/index.php(55): Illuminate\\Foundation\\Http\\Kernel->handle(Object(Illuminate\\Http\\Request))
+#29 /Users/arianaesquivel/Sites/practica_3/server.php(21): require_once('/Users/arianaes...')
+#30 {main}
 "} 
-[2020-11-19 19:05:42] local.INFO: id:1  
-[2020-11-19 19:05:42] local.ERROR: The HTTP status code "2001" is not valid. {"userId":1,"exception":"[object] (InvalidArgumentException(code: 0): The HTTP status code \"2001\" is not valid. at /Users/arianaesquivel/Sites/practica_3/vendor/symfony/http-foundation/Response.php:469)
+[2020-11-20 06:37:36] local.ERROR: Route [login] not defined. {"exception":"[object] (Symfony\\Component\\Routing\\Exception\\RouteNotFoundException(code: 0): Route [login] not defined. at /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Routing/UrlGenerator.php:420)
 [stacktrace]
-#0 /Users/arianaesquivel/Sites/practica_3/vendor/symfony/http-foundation/Response.php(219): Symfony\\Component\\HttpFoundation\\Response->setStatusCode(2001)
-#1 /Users/arianaesquivel/Sites/practica_3/vendor/symfony/http-foundation/JsonResponse.php(44): Symfony\\Component\\HttpFoundation\\Response->__construct('', 2001, Array)
-#2 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Http/JsonResponse.php(31): Symfony\\Component\\HttpFoundation\\JsonResponse->__construct(Array, 2001, Array)
-#3 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Routing/ResponseFactory.php(99): Illuminate\\Http\\JsonResponse->__construct(Array, 2001, Array, 0)
-#4 /Users/arianaesquivel/Sites/practica_3/app/Http/Controllers/UserController.php(298): Illuminate\\Routing\\ResponseFactory->json(Array, 2001)
-#5 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Routing/Controller.php(54): App\\Http\\Controllers\\UserController->cambiarfoto(Object(Illuminate\\Http\\Request))
-#6 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Routing/ControllerDispatcher.php(45): Illuminate\\Routing\\Controller->callAction('cambiarfoto', Array)
-#7 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Routing/Route.php(239): Illuminate\\Routing\\ControllerDispatcher->dispatch(Object(Illuminate\\Routing\\Route), Object(App\\Http\\Controllers\\UserController), 'cambiarfoto')
-#8 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Routing/Route.php(196): Illuminate\\Routing\\Route->runController()
-#9 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Routing/Router.php(685): Illuminate\\Routing\\Route->run()
-#10 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(128): Illuminate\\Routing\\Router->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
-#11 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Routing/Middleware/SubstituteBindings.php(41): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
-#12 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(167): Illuminate\\Routing\\Middleware\\SubstituteBindings->handle(Object(Illuminate\\Http\\Request), Object(Closure))
-#13 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Routing/Middleware/ThrottleRequests.php(59): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
-#14 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(167): Illuminate\\Routing\\Middleware\\ThrottleRequests->handle(Object(Illuminate\\Http\\Request), Object(Closure), 60, '1')
-#15 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Auth/Middleware/Authenticate.php(44): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
-#16 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(167): Illuminate\\Auth\\Middleware\\Authenticate->handle(Object(Illuminate\\Http\\Request), Object(Closure), 'sanctum')
-#17 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(103): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
-#18 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Routing/Router.php(687): Illuminate\\Pipeline\\Pipeline->then(Object(Closure))
-#19 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Routing/Router.php(662): Illuminate\\Routing\\Router->runRouteWithinStack(Object(Illuminate\\Routing\\Route), Object(Illuminate\\Http\\Request))
-#20 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Routing/Router.php(628): Illuminate\\Routing\\Router->runRoute(Object(Illuminate\\Http\\Request), Object(Illuminate\\Routing\\Route))
-#21 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Routing/Router.php(617): Illuminate\\Routing\\Router->dispatchToRoute(Object(Illuminate\\Http\\Request))
-#22 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(165): Illuminate\\Routing\\Router->dispatch(Object(Illuminate\\Http\\Request))
-#23 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(128): Illuminate\\Foundation\\Http\\Kernel->Illuminate\\Foundation\\Http\\{closure}(Object(Illuminate\\Http\\Request))
-#24 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TransformsRequest.php(21): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
-#25 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(167): Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest->handle(Object(Illuminate\\Http\\Request), Object(Closure))
-#26 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TransformsRequest.php(21): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
-#27 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(167): Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest->handle(Object(Illuminate\\Http\\Request), Object(Closure))
-#28 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/ValidatePostSize.php(27): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
-#29 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(167): Illuminate\\Foundation\\Http\\Middleware\\ValidatePostSize->handle(Object(Illuminate\\Http\\Request), Object(Closure))
-#30 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/CheckForMaintenanceMode.php(63): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
-#31 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(167): Illuminate\\Foundation\\Http\\Middleware\\CheckForMaintenanceMode->handle(Object(Illuminate\\Http\\Request), Object(Closure))
-#32 /Users/arianaesquivel/Sites/practica_3/vendor/fruitcake/laravel-cors/src/HandleCors.php(57): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
-#33 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(167): Fruitcake\\Cors\\HandleCors->handle(Object(Illuminate\\Http\\Request), Object(Closure))
-#34 /Users/arianaesquivel/Sites/practica_3/vendor/fideloper/proxy/src/TrustProxies.php(57): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
-#35 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(167): Fideloper\\Proxy\\TrustProxies->handle(Object(Illuminate\\Http\\Request), Object(Closure))
-#36 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(103): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
-#37 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(140): Illuminate\\Pipeline\\Pipeline->then(Object(Closure))
-#38 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(109): Illuminate\\Foundation\\Http\\Kernel->sendRequestThroughRouter(Object(Illuminate\\Http\\Request))
-#39 /Users/arianaesquivel/Sites/practica_3/public/index.php(55): Illuminate\\Foundation\\Http\\Kernel->handle(Object(Illuminate\\Http\\Request))
-#40 /Users/arianaesquivel/Sites/practica_3/server.php(21): require_once('/Users/arianaes...')
-#41 {main}
+#0 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Foundation/helpers.php(768): Illuminate\\Routing\\UrlGenerator->route('login', Array, true)
+#1 /Users/arianaesquivel/Sites/practica_3/app/Http/Middleware/Authenticate.php(18): route('login')
+#2 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Auth/Middleware/Authenticate.php(83): App\\Http\\Middleware\\Authenticate->redirectTo(Object(Illuminate\\Http\\Request))
+#3 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Auth/Middleware/Authenticate.php(68): Illuminate\\Auth\\Middleware\\Authenticate->unauthenticated(Object(Illuminate\\Http\\Request), Array)
+#4 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Auth/Middleware/Authenticate.php(42): Illuminate\\Auth\\Middleware\\Authenticate->authenticate(Object(Illuminate\\Http\\Request), Array)
+#5 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(167): Illuminate\\Auth\\Middleware\\Authenticate->handle(Object(Illuminate\\Http\\Request), Object(Closure), 'sanctum')
+#6 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(103): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#7 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Routing/Router.php(687): Illuminate\\Pipeline\\Pipeline->then(Object(Closure))
+#8 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Routing/Router.php(662): Illuminate\\Routing\\Router->runRouteWithinStack(Object(Illuminate\\Routing\\Route), Object(Illuminate\\Http\\Request))
+#9 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Routing/Router.php(628): Illuminate\\Routing\\Router->runRoute(Object(Illuminate\\Http\\Request), Object(Illuminate\\Routing\\Route))
+#10 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Routing/Router.php(617): Illuminate\\Routing\\Router->dispatchToRoute(Object(Illuminate\\Http\\Request))
+#11 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(165): Illuminate\\Routing\\Router->dispatch(Object(Illuminate\\Http\\Request))
+#12 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(128): Illuminate\\Foundation\\Http\\Kernel->Illuminate\\Foundation\\Http\\{closure}(Object(Illuminate\\Http\\Request))
+#13 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TransformsRequest.php(21): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#14 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(167): Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#15 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TransformsRequest.php(21): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#16 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(167): Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#17 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/ValidatePostSize.php(27): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#18 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(167): Illuminate\\Foundation\\Http\\Middleware\\ValidatePostSize->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#19 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/CheckForMaintenanceMode.php(63): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#20 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(167): Illuminate\\Foundation\\Http\\Middleware\\CheckForMaintenanceMode->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#21 /Users/arianaesquivel/Sites/practica_3/vendor/fruitcake/laravel-cors/src/HandleCors.php(57): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#22 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(167): Fruitcake\\Cors\\HandleCors->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#23 /Users/arianaesquivel/Sites/practica_3/vendor/fideloper/proxy/src/TrustProxies.php(57): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#24 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(167): Fideloper\\Proxy\\TrustProxies->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#25 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(103): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#26 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(140): Illuminate\\Pipeline\\Pipeline->then(Object(Closure))
+#27 /Users/arianaesquivel/Sites/practica_3/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(109): Illuminate\\Foundation\\Http\\Kernel->sendRequestThroughRouter(Object(Illuminate\\Http\\Request))
+#28 /Users/arianaesquivel/Sites/practica_3/public/index.php(55): Illuminate\\Foundation\\Http\\Kernel->handle(Object(Illuminate\\Http\\Request))
+#29 /Users/arianaesquivel/Sites/practica_3/server.php(21): require_once('/Users/arianaes...')
+#30 {main}
 "} 
-[2020-11-19 19:06:14] local.INFO: id:1  
-[2020-11-19 19:06:17] local.INFO: id:1  
-[2020-11-19 19:06:18] local.INFO: id:1  
-[2020-11-19 19:06:31] local.INFO: id:1  
-[2020-11-19 19:09:13] local.INFO: id:1  
-[2020-11-19 19:09:38] local.INFO: id:1  
+[2020-11-20 06:39:58] local.INFO: array (
+  'permisos' => 
+  array (
+    0 => 7,
+    1 => 9,
+    2 => 6,
+    3 => 8,
+  ),
+)  

@@ -157,9 +157,9 @@ class PostsController extends Controller
     {
         if ($request->user()->tokenCan('admin:delete')) {
             $eliminado = posts::where('id', $request->id)->first();
-            DB::table('comentarios')->where('post_id', '=', $request->id)->delete();
-            DB::table('posts')->where('id', '=', $request->id)->delete();
             if ($eliminado) {
+                DB::table('comentarios')->where('post_id', '=', $request->id)->delete();
+                DB::table('posts')->where('id', '=', $request->id)->delete();
                 if ($eliminado->imagen)
                 {
                     Storage::delete('public/'.$eliminado->imagen);
@@ -172,7 +172,6 @@ class PostsController extends Controller
         }
         else if ($request->user()->tokenCan('user:delete')) {
             $eliminado = posts::where('id', $request->id)->where('user_id', $request->user()->id)->first();
-            Log::info($eliminado);
             if ($eliminado) {
                 if ($eliminado->imagen)
                 {
