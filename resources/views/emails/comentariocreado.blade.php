@@ -8,7 +8,7 @@
 <body>
 <h2>Comentario exitoso</h2>
 <p>   
-Estimado(a) {{$comentario_autor}} le informamos su post ha recibido un comentario
+Estimado(a) {{$comentario_autor}} le informamos su comentario ha sido enviado de manera satisfactoria
 </p>
     
 <table style='font-size:14px;'>

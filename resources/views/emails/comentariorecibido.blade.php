@@ -8,7 +8,7 @@
 <body>
 <h2>Comentario recibido</h2>
 <p>   
-Estimado(a) {{$post_autor}} le informamos su comentario ha sido exitoso
+Estimado(a) {{$post_autor}} le informamos su post ha recibido un comentario
 </p>
     
 <table style='font-size:14px;'>
