@@ -28,10 +28,20 @@ class PermisosController extends Controller
                 'permiso' => 'admin:index',
                 'razón' => 'ver la lista de permisos'
             );
-            Mail::send('emails.sinpermiso', $data, function ($message) use ($data) {
-                $message->from('19170089@uttcampus.edu.mx', 'Ariana Esquivel');
-                $message->to('19170089@uttcampus.edu.mx', 'Administrador')->subject('Aviso');
-            });
+            $buscarAdmins = DB::table('user_permisos')
+            ->join('users', 'user_permisos.user_id', '=', 'users.id')
+            ->join('permisos', 'user_permisos.permiso_id', '=', 'permisos.id')
+            ->select('users.name', 'users.email')
+            ->where('permisos.tipo', 'admin:asignar')
+            ->get();
+            foreach($buscarAdmins as $admins=>$admin)
+            {
+                Mail::send('emails.sinpermiso', $data, function ($message) use ($data, $admin) {
+                    $message->from('19170089@uttcampus.edu.mx', 'Api práctica 3');
+                    $message->to($admin->email, $admin->name)->
+                    subject('Aviso');
+                });
+            }
             return abort(401, "No tienes permiso de ver los permisos");
         }
     }
@@ -74,11 +84,20 @@ class PermisosController extends Controller
                 'razón' => 'crear un permiso',
                 'tipo' => $request->tipo
             );
-            Mail::send('emails.sinpermiso', $data, function ($message) use ($data) {
-                $message->from('19170089@uttcampus.edu.mx', 'Ariana Esquivel');
-                $message->to('19170089@uttcampus.edu.mx', 'Administrador')->
-                subject('Intentando crear un "'. $data['tipo'].'"');
-            });
+            $buscarAdmins = DB::table('user_permisos')
+            ->join('users', 'user_permisos.user_id', '=', 'users.id')
+            ->join('permisos', 'user_permisos.permiso_id', '=', 'permisos.id')
+            ->select('users.name', 'users.email')
+            ->where('permisos.tipo', 'admin:asignar')
+            ->get();
+            foreach($buscarAdmins as $admins=>$admin)
+            {
+                Mail::send('emails.sinpermiso', $data, function ($message) use ($data, $admin) {
+                    $message->from('19170089@uttcampus.edu.mx', 'Api práctica 3');
+                    $message->to($admin->email, $admin->name)->
+                    subject('Intentando crear un "'. $data['tipo'].'"');
+                });
+            }
             return abort(401, "No tienes permiso de crear permisos");
         }
     }
@@ -134,12 +153,20 @@ class PermisosController extends Controller
                 'viejo' => $permiso ->tipo,
                 'nuevo' => $request->tipo
             );
-
-            Mail::send('emails.sinpermiso', $data, function ($message) use ($data) {
-                $message->from('19170089@uttcampus.edu.mx', 'Ariana Esquivel');
-                $message->to('19170089@uttcampus.edu.mx', 'Administrador')->
-                subject('Intentando cambiar de "'. $data['viejo']. '" a "'. $data['nuevo'].'"');
-            });
+            $buscarAdmins = DB::table('user_permisos')
+            ->join('users', 'user_permisos.user_id', '=', 'users.id')
+            ->join('permisos', 'user_permisos.permiso_id', '=', 'permisos.id')
+            ->select('users.name', 'users.email')
+            ->where('permisos.tipo', 'admin:asignar')
+            ->get();
+            foreach($buscarAdmins as $admins=>$admin)
+            {
+                Mail::send('emails.sinpermiso', $data, function ($message) use ($data, $admin) {
+                    $message->from('19170089@uttcampus.edu.mx', 'Api práctica 3');
+                    $message->to($admin->email, $admin->name)->
+                    subject('Intentando cambiar de "'. $data['viejo']. '" a "'. $data['nuevo'].'"');
+                });
+            }
             return abort(401, "No tienes permiso de crear permisos");
         }
     }
@@ -173,12 +200,20 @@ class PermisosController extends Controller
                 'razón' => 'eliminar un permiso',
                 'tipo' => $permiso ->tipo
             );
-
-            Mail::send('emails.sinpermiso', $data, function ($message) use ($data) {
-                $message->from('19170089@uttcampus.edu.mx', 'Ariana Esquivel');
-                $message->to('19170089@uttcampus.edu.mx', 'Administrador')->
-                subject('Intentando eliminar el permiso "'. $data['tipo']. '"');
-            });
+            $buscarAdmins = DB::table('user_permisos')
+            ->join('users', 'user_permisos.user_id', '=', 'users.id')
+            ->join('permisos', 'user_permisos.permiso_id', '=', 'permisos.id')
+            ->select('users.name', 'users.email')
+            ->where('permisos.tipo', 'admin:asignar')
+            ->get();
+            foreach($buscarAdmins as $admins=>$admin)
+            {
+                Mail::send('emails.sinpermiso', $data, function ($message) use ($data, $admin) {
+                    $message->from('19170089@uttcampus.edu.mx', 'Api práctica 3');
+                    $message->to($admin->email, $admin->name)->
+                    subject('Intentando eliminar el permiso "'. $data['tipo']. '"');
+                });
+            }
             return response()->json("No tienes permiso de eliminar permisos", 401);
         }
     }

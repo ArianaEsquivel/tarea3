@@ -8,7 +8,7 @@
 <body>
 <h2>Aviso</h2>
 <p>   
-Estimado administrador le informamos el correo {{$email}} perteneciente a {{$name}} 
+Estimado administrador le informamos que el correo {{$email}} perteneciente a {{$name}} 
 está intentando {{$razón}} sin tener el permiso {{$permiso}}.
 </p>
 </body>

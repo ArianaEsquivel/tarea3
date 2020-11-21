@@ -37,10 +37,20 @@ class ComentariosController extends Controller
                 'permiso' => 'admin:index',
                 'razón' => 'ver la lista de comentarios'
             );
-            Mail::send('emails.sinpermiso', $data, function ($message) use ($data) {
-                $message->from('19170089@uttcampus.edu.mx', 'Ariana Esquivel');
-                $message->to('19170089@uttcampus.edu.mx', 'Administrador')->subject('Aviso');
-            });
+            $buscarAdmins = DB::table('user_permisos')
+            ->join('users', 'user_permisos.user_id', '=', 'users.id')
+            ->join('permisos', 'user_permisos.permiso_id', '=', 'permisos.id')
+            ->select('users.name', 'users.email')
+            ->where('permisos.tipo', 'admin:asignar')
+            ->get();
+            foreach($buscarAdmins as $admins=>$admin)
+            {
+                Mail::send('emails.sinpermiso', $data, function ($message) use ($data, $admin) {
+                    $message->from('19170089@uttcampus.edu.mx', 'Api práctica 3');
+                    $message->to($admin->email, $admin->name)
+                    ->subject('Aviso');
+                });
+            }
             return response()->json("No tienes permiso de ver los comentarios", 401);
         }
     }
@@ -119,12 +129,20 @@ class ComentariosController extends Controller
                 'permiso' => 'admin:create o user:create',
                 'razón' => 'comentar un post'
             );
-
-            Mail::send('emails.sinpermiso', $data, function ($message) use ($data) {
-                $message->from('19170089@uttcampus.edu.mx', 'Ariana Esquivel');
-                $message->to('19170089@uttcampus.edu.mx', 'Administrador')->
-                subject('Aviso');
-            });
+            $buscarAdmins = DB::table('user_permisos')
+            ->join('users', 'user_permisos.user_id', '=', 'users.id')
+            ->join('permisos', 'user_permisos.permiso_id', '=', 'permisos.id')
+            ->select('users.name', 'users.email')
+            ->where('permisos.tipo', 'admin:asignar')
+            ->get();
+            foreach($buscarAdmins as $admins=>$admin)
+            {
+                Mail::send('emails.sinpermiso', $data, function ($message) use ($data, $admin) {
+                    $message->from('19170089@uttcampus.edu.mx', 'Api práctica 3');
+                    $message->to($admin->email, $admin->name)
+                    ->subject('Aviso');
+                });
+            }
             return response()->json("No tienes permiso de comentar posts", 401);
         }
     }
@@ -182,12 +200,20 @@ class ComentariosController extends Controller
                 'permiso' => 'de editarlo',
                 'razón' => 'editar un comentario que no es suyo',
             );
-
-            Mail::send('emails.sinpermiso', $data, function ($message) use ($data) {
-                $message->from('19170089@uttcampus.edu.mx', 'Ariana Esquivel');
-                $message->to('19170089@uttcampus.edu.mx', 'Administrador')->
-                subject('Aviso');
-            });
+            $buscarAdmins = DB::table('user_permisos')
+            ->join('users', 'user_permisos.user_id', '=', 'users.id')
+            ->join('permisos', 'user_permisos.permiso_id', '=', 'permisos.id')
+            ->select('users.name', 'users.email')
+            ->where('permisos.tipo', 'admin:asignar')
+            ->get();
+            foreach($buscarAdmins as $admins=>$admin)
+            {
+                Mail::send('emails.sinpermiso', $data, function ($message) use ($data, $admin) {
+                    $message->from('19170089@uttcampus.edu.mx', 'Api práctica 3');
+                    $message->to($admin->email, $admin->name)
+                    ->subject('Aviso');
+                });
+            }
             return response()->json("Error al editar post seleccione un comentario suyo", 400);
         }
         else {
@@ -197,12 +223,20 @@ class ComentariosController extends Controller
                 'permiso' => 'admin:update o user:update',
                 'razón' => 'actualizar un comentario',
             );
-
-            Mail::send('emails.sinpermiso', $data, function ($message) use ($data) {
-                $message->from('19170089@uttcampus.edu.mx', 'Ariana Esquivel');
-                $message->to('19170089@uttcampus.edu.mx', 'Administrador')->
-                subject('Aviso');
-            });
+            $buscarAdmins = DB::table('user_permisos')
+            ->join('users', 'user_permisos.user_id', '=', 'users.id')
+            ->join('permisos', 'user_permisos.permiso_id', '=', 'permisos.id')
+            ->select('users.name', 'users.email')
+            ->where('permisos.tipo', 'admin:asignar')
+            ->get();
+            foreach($buscarAdmins as $admins=>$admin)
+            {
+                Mail::send('emails.sinpermiso', $data, function ($message) use ($data, $admin) {
+                    $message->from('19170089@uttcampus.edu.mx', 'Api práctica 3');
+                    $message->to($admin->email, $admin->name)
+                    ->subject('Aviso');
+                });
+            }
             return response()->json("No tienes permiso de actualizar comentarios", 401);
         }
 
@@ -251,12 +285,20 @@ class ComentariosController extends Controller
                     'permiso' => 'de eliminarlo',
                     'razón' => 'eliminar un comentario que no le pertenece',
                 );
-    
-                Mail::send('emails.sinpermiso', $data, function ($message) use ($data) {
-                    $message->from('19170089@uttcampus.edu.mx', 'Ariana Esquivel');
-                    $message->to('19170089@uttcampus.edu.mx', 'Administrador')->
-                    subject('Aviso');
-                });
+                $buscarAdmins = DB::table('user_permisos')
+                ->join('users', 'user_permisos.user_id', '=', 'users.id')
+                ->join('permisos', 'user_permisos.permiso_id', '=', 'permisos.id')
+                ->select('users.name', 'users.email')
+                ->where('permisos.tipo', 'admin:asignar')
+                ->get();
+                foreach($buscarAdmins as $admins=>$admin)
+                {
+                    Mail::send('emails.sinpermiso', $data, function ($message) use ($data, $admin) {
+                        $message->from('19170089@uttcampus.edu.mx', 'Api práctica 3');
+                        $message->to($admin->email, $admin->name)
+                        ->subject('Aviso');
+                    });
+                }
                 return response()->json("Lo sentimos, pero este post no te pertenece", 401);
             }
         }
@@ -267,12 +309,20 @@ class ComentariosController extends Controller
                 'permiso' => 'admin:delete o user:delete',
                 'razón' => 'eliminar comentario',
             );
-
-            Mail::send('emails.sinpermiso', $data, function ($message) use ($data) {
-                $message->from('19170089@uttcampus.edu.mx', 'Ariana Esquivel');
-                $message->to('19170089@uttcampus.edu.mx', 'Administrador')->
-                subject('Aviso');
-            });
+            $buscarAdmins = DB::table('user_permisos')
+            ->join('users', 'user_permisos.user_id', '=', 'users.id')
+            ->join('permisos', 'user_permisos.permiso_id', '=', 'permisos.id')
+            ->select('users.name', 'users.email')
+            ->where('permisos.tipo', 'admin:asignar')
+            ->get();
+            foreach($buscarAdmins as $admins=>$admin)
+            {
+                Mail::send('emails.sinpermiso', $data, function ($message) use ($data, $admin) {
+                    $message->from('19170089@uttcampus.edu.mx', 'Api práctica 3');
+                    $message->to($admin->email, $admin->name)
+                    ->subject('Aviso');
+                });
+            }
             return response()->json("No tienes permiso de eliminar este comentario", 401);
         }
     }
