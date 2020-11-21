@@ -17,7 +17,7 @@ class UsersSeeder extends Seeder
      */
     public function run()
     {
-        $admin = User::where('email', 'admin@gmail.com')->first();  
+        $admin = User::where('email', '19170089@uttcampus.edu.mx')->first();  
         //Log::info($admin);
         if (!$admin)
         {

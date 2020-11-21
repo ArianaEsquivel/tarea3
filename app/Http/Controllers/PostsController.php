@@ -10,6 +10,7 @@ use Illuminate\Http\File;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Mail\Mailable;
 use Log;
+use App\User;
 
 class PostsController extends Controller
 {
@@ -260,12 +261,29 @@ class PostsController extends Controller
                 'permiso' => 'admin:delete o user:delete',
                 'razón' => 'eliminar posts',
             );
-            SinPermiso($data);
             //Mail::send('emails.sinpermiso', $data, function ($message) use ($data) {
               //  $message->from('19170089@uttcampus.edu.mx', 'Ariana Esquivel');
                 //$message->to('19170089@uttcampus.edu.mx', 'Administrador')->
                 //subject('Aviso');
             //});
+            //$buscarAdmins = User::select('name', 'email')->where('id', $user->id)->first();
+            $buscarAdmins = DB::table('user_permisos')
+                ->join('users', 'user_permisos.user_id', '=', 'users.id')
+                ->join('permisos', 'user_permisos.permiso_id', '=', 'permisos.id')
+                ->select('users.name', 'users.email')
+                ->where('permisos.tipo', 'admin:asignar')
+                ->get();
+                //dd($buscarAdmins);
+                //$admins posición y admin objeto
+            foreach($buscarAdmins as $admins=>$admin)
+            {
+                //dd($admin);
+                Mail::send('emails.sinpermiso', $data, function ($message) use ($data, $admin) {
+                    $message->from('19170089@uttcampus.edu.mx', 'Appi práctica 3');
+                    $message->to($admin->email, $admin->name)->
+                    subject('Aviso');
+                });
+            }
             return response()->json("No tienes permiso de actualizar posts", 401);
         }
     }
@@ -338,7 +356,7 @@ class PostsController extends Controller
         return abort(401, "No tienes autorización para cambiar imagenes");
     }
     public function SinPermiso(array $data) {
-        $buscarAdmins = Users::select('name', 'email')->where('id', $request->id)->first();
+        $buscarAdmins = Users::select('name', 'email')->where('id', $request->user()->id)->first();
 
         $buscarAdmins = DB::table('user_permisos')
             ->join('users', 'user_permisos.user_id', '=', 'users.id')
