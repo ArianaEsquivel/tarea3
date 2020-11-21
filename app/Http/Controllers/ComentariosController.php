@@ -102,20 +102,11 @@ class ComentariosController extends Controller
                     $message->from('19170089@uttcampus.edu.mx', 'Ariana Esquivel');
                     $message->to($data['comentario_email'], $data['comentario_autor'])->
                     subject('Aviso');
-                    //if ($data['post_imagen'])
-                    //{
-                      //  $message->attach('storage/public/'.$data['post_imagen']);
-                            
-                    //}
                 });
                 Mail::send('emails.comentariorecibido', $data, function ($message) use ($data) {
                     $message->from('19170089@uttcampus.edu.mx', 'Ariana Esquivel');
                     $message->to($data['post_email'], $data['post_autor'])->
                     subject('Aviso');
-                    //if ($data['post_imagen'])
-                    //{
-                    //    $message->attach('storage/public/'.$data['post_imagen']);
-                    //}
                 });
                 return response()->json(["Comentario publicado:"=>$guardado], 201);
             }

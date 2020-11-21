@@ -94,3 +94,9 @@ Route::middleware('auth:sanctum')->post('cambiarimagen', 'PostsController@cambia
 
 //
 Route::get("verificarcuenta/{codigo}", "UserController@verificarcuenta");
+
+//RUTAS DE API NASA
+Route::get("epic", "NasaController@EPIC");
+Route::get("eart", "NasaController@EART");
+Route::get("insight", "NasaController@InSight");
+
