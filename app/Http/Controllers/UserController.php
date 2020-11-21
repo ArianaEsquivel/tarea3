@@ -14,6 +14,7 @@ use Illuminate\Mail\Mailable;
 use Carbon\Carbon;
 use Illuminate\Support\Str;
 use App\user_permiso;
+use App\posts;
 use Log;
 
 class UserController extends Controller
@@ -137,7 +138,6 @@ class UserController extends Controller
                 DB::table('users')->where('id', '=', $request->id)->delete();
                 if ($eliminado->foto)
                 {
-                    Log::info($eliminado->foto);
                     Storage::delete('public/'.$eliminado->foto);
                 }
                 return response()->json(["Se eliminó el usuario:"=>$eliminado]);
@@ -150,10 +150,16 @@ class UserController extends Controller
             $eliminado = user::where('id', $request->user()->id)->first();
             if ($eliminado) {
                 $request->user()->tokens()->delete();
-                DB::table('user_permisos')->where('user_id', '=', $request->user()->id)->delete();
-                DB::table('comentarios')->where('user_id', '=', $request->user()->id)->delete();
-                DB::table('posts')->where('user_id', '=', $request->user()->id)->delete();
-                DB::table('users')->where('id', '=', $request->user()->id)->delete();
+                $posts = posts::select('id')->where('user_id', $eliminado->id)->get()->pluck('id')
+                ->toArray();
+                DB::table('user_permisos')->where('user_id', '=', $eliminado->id)->delete();
+                DB::table('comentarios')->where('user_id', '=', $eliminado->id)->delete();
+                for($i=0; $i < count($posts); $i++)
+                {
+                    DB::table('comentarios')->where('post_id', '=', $posts[$i])->delete();
+                }
+                DB::table('posts')->where('user_id', '=', $eliminado->id)->delete();
+                DB::table('users')->where('id', '=', $eliminado->id)->delete();
                 if ($eliminado->foto)
                 {
                     Storage::delete('public/'.$eliminado->foto);

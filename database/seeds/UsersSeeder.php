@@ -22,9 +22,9 @@ class UsersSeeder extends Seeder
         if (!$admin)
         {
             User::create([
-                'name' => 'Administrador',
+                'name' => 'Ariana Yamileth',
                 'age' => 20,
-                'email' => 'admin@gmail.com',
+                'email' => '19170089@uttcampus.edu.mx',
                 'password' => Hash::make('123456'),
                 'codigo' => Str::random(25),
                 'email_verified_at' => Carbon::now()

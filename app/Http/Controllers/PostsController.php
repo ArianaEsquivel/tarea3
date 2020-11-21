@@ -260,12 +260,12 @@ class PostsController extends Controller
                 'permiso' => 'admin:delete o user:delete',
                 'razón' => 'eliminar posts',
             );
-
-            Mail::send('emails.sinpermiso', $data, function ($message) use ($data) {
-                $message->from('19170089@uttcampus.edu.mx', 'Ariana Esquivel');
-                $message->to('19170089@uttcampus.edu.mx', 'Administrador')->
-                subject('Aviso');
-            });
+            SinPermiso($data);
+            //Mail::send('emails.sinpermiso', $data, function ($message) use ($data) {
+              //  $message->from('19170089@uttcampus.edu.mx', 'Ariana Esquivel');
+                //$message->to('19170089@uttcampus.edu.mx', 'Administrador')->
+                //subject('Aviso');
+            //});
             return response()->json("No tienes permiso de actualizar posts", 401);
         }
     }
@@ -336,5 +336,24 @@ class PostsController extends Controller
             return abort(400, "Error al editar tu imagen");
         }
         return abort(401, "No tienes autorización para cambiar imagenes");
+    }
+    public function SinPermiso(array $data) {
+        $buscarAdmins = Users::select('name', 'email')->where('id', $request->id)->first();
+
+        $buscarAdmins = DB::table('user_permisos')
+            ->join('users', 'user_permisos.user_id', '=', 'users.id')
+            ->join('permisos', 'user_permisos.permiso_id', '=', 'permisos.id')
+            ->select('users.name', 'users.email')
+            ->where('permisos', 'admin:asignar')
+            ->get();
+
+        for($i = 0; $i < count($buscarAdmins); $i++)
+        {
+            Mail::send('emails.sinpermiso', $data, function ($message) use ($data, $buscarAdmins) {
+                $message->from('19170089@uttcampus.edu.mx', 'Appi práctica 3');
+                $message->to($buscarAdmins->email[$i], $buscarAdmins->name[$i])->
+                subject('Aviso');
+            });
+        }
     }
 }
